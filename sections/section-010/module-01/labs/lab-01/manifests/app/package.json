@@ -1,0 +1,44 @@
+{
+  "name": "inventory-dashboard-app",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "deploy": "rm -rf /srv/dist/* && cp -r dist/. /srv/dist/"
+  },
+  "dependencies": {
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@hookform/resolvers": "3.10.0",
+    "@mui/material": "6.5.0",
+    "@perses-dev/client": "0.54.0",
+    "@perses-dev/components": "0.53.0",
+    "@perses-dev/dashboards": "0.55.0",
+    "@perses-dev/explore": "0.54.0",
+    "@perses-dev/plugin-system": "0.54.0",
+    "@perses-dev/prometheus-plugin": "0.58.0",
+    "@perses-dev/spec": "0.2.0",
+    "@perses-dev/stat-chart-plugin": "0.13.0",
+    "@perses-dev/timeseries-chart-plugin": "0.14.0",
+    "@tanstack/react-query": "4.44.0",
+    "date-fns": "4.4.0",
+    "date-fns-tz": "3.2.0",
+    "echarts": "5.5.0",
+    "immer": "10.2.0",
+    "lodash": "4.18.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-hook-form": "7.90.0",
+    "react-router-dom": "6.30.6",
+    "use-resize-observer": "9.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "4.7.0",
+    "typescript": "5.9.3",
+    "vite": "6.4.5"
+  }
+}

@@ -1,0 +1,268 @@
+# Course manifest for ATS110 - Embedded UI Packages & Plugin Development (Perses).
+#
+# One entry per section under `modules:`. Each section lists, in order: its
+# README, then for each module the landing page (course.md), its parts
+# (course-0N-*.md), and right after the part a lab tests, the lab's
+# question.md reading and the `type: lab` entry. The module's summary page
+# comes last. The section capstone closes the section. Playgrounds are not
+# listed: the landing page's playground marker shows them. solution.md is
+# never listed.
+#
+# Every `path:` is relative to this file.
+
+training:
+  id: ATS110
+  title: "Perses: Embedded UI Packages & Plugin Development"
+  maturity: draft
+  description: >
+    Training material covering the Embedded UI Packages & Plugin Development
+    domain of the Perses training path: what the @perses-dev npm packages
+    contain and how their versions and peer dependencies fit together,
+    building a React application that renders Perses panels with data from a
+    Perses datasource through the Perses proxy, and writing, building and
+    installing a panel plugin with percli. Each module pairs a layered reader
+    with an ungraded hands-on playground and a graded practice lab. Each
+    section closes with an integration capstone.
+    Written for Perses v0.54.0.
+
+  certification:
+    name: Perses
+    code: PERSES
+    provider: Astrona
+    domain: Embedded UI Packages & Plugin Development
+    weight: 15
+
+modules:
+
+  - id: module-intro
+    title: "Introduction"
+    description: >
+      Start here. What this course trains you to do, how it is laid out, how
+      to get your machine ready with the astrona command-line tool, how the
+      content is written and checked, who maintains it, and how to report a
+      mistake.
+
+    content:
+      - type: reading
+        title: Introduction
+        path: sections/intro/README.md
+      - type: reading
+        title: "Welcome To The Course"
+        path: sections/intro/course-01-welcome.md
+      - type: reading
+        title: "Get Your Machine Ready"
+        path: sections/intro/course-02-get-your-machine-ready.md
+      - type: reading
+        title: "How This Course Is Made"
+        path: sections/intro/course-03-how-this-course-is-made.md
+
+  - id: module-010
+    title: "The Perses npm Packages"
+    description: >
+      The @perses-dev packages and their layers, why their versions must match
+      the Perses server and each other, peer dependencies, and building a
+      React application in the cluster.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-010/README.md
+
+      - type: reading
+        title: "Use The Perses npm Packages"
+        path: sections/section-010/module-01/course.md
+      - type: reading
+        title: "What Is In The Perses npm Packages"
+        path: sections/section-010/module-01/course-01-the-perses-npm-packages.md
+      - type: reading
+        title: "Versions And Peer Dependencies"
+        path: sections/section-010/module-01/course-02-versions-and-peer-dependencies.md
+      - type: reading
+        title: "Building The App In The Cluster"
+        path: sections/section-010/module-01/course-03-building-the-app-in-the-cluster.md
+      - type: reading
+        title: Question
+        path: sections/section-010/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Align The Perses Package Versions Lab"
+        path: sections/section-010/module-01/labs/lab-01
+        difficulty: beginner
+        estimated_duration: 25m
+        topic: packages
+        task_kind: troubleshooting
+        tags: [npm, peer-dependencies, package-versions, vite, react]
+        learning_goals:
+          - Read an npm peer dependency error and find the package versions that cause it
+          - Pin every Perses package to the versions that ship with Perses v0.54.0
+          - Prove the fix with a clean dependency tree and a served build
+        resources:
+          - name: "UI package architecture"
+            url: https://github.com/perses/perses/blob/v0.54.0/docs/ui-package-architecture.md
+          - name: "Embedding Perses panels"
+            url: https://perses.dev/perses/docs/embedding-panels/
+      - type: reading
+        title: Summary
+        path: sections/section-010/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-010/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Rescue A Starter App That Never Built Capstone"
+        path: sections/section-010/capstone/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 35m
+        topic: packages
+        task_kind: troubleshooting
+        tags: [npm, peer-dependencies, package-versions, react, vite, nginx]
+        learning_goals:
+          - Find every reason a starter app does not install or does not load
+          - Fix the versions and the build configuration without turning peer checks off
+          - Prove the fix with a clean dependency tree and a page that loads its JavaScript
+        resources:
+          - name: "Embedding Perses panels"
+            url: https://perses.dev/perses/docs/embedding-panels/
+          - name: "UI package architecture"
+            url: https://github.com/perses/perses/blob/v0.54.0/docs/ui-package-architecture.md
+
+  - id: module-020
+    title: "Embedding Panels In A React Application"
+    description: >
+      The providers a Perses panel needs, a DatasourceApi that finds datasources
+      on the Perses server and sends queries through the Perses proxy, and
+      panels, queries and the shared time range.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-020/README.md
+
+      - type: reading
+        title: "Embed Perses Panels In A React Application"
+        path: sections/section-020/module-01/course.md
+      - type: reading
+        title: "The Providers A Panel Needs"
+        path: sections/section-020/module-01/course-01-the-providers.md
+      - type: reading
+        title: "A DatasourceApi That Uses The Perses Proxy"
+        path: sections/section-020/module-01/course-02-a-datasource-api-for-perses.md
+      - type: reading
+        title: "Panels, Queries And The Time Range"
+        path: sections/section-020/module-01/course-03-panels-queries-and-time-range.md
+      - type: reading
+        title: Question
+        path: sections/section-020/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Embed Two Panels That Query Through Perses Lab"
+        path: sections/section-020/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: embedding
+        task_kind: build
+        tags: [react, providers, datasource-api, proxy, panel, time-range]
+        learning_goals:
+          - Implement a DatasourceApi that reads global datasources from Perses and builds proxy URLs
+          - Render a TimeSeriesChart and a StatChart panel with their own queries
+          - Prove that queries reach Prometheus through the app's origin and the Perses proxy
+        resources:
+          - name: "Embedding Perses panels"
+            url: https://perses.dev/perses/docs/embedding-panels/
+          - name: "Datasource proxy"
+            url: https://perses.dev/perses/docs/concepts/proxy/
+      - type: reading
+        title: Summary
+        path: sections/section-020/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-020/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Make An Embedded Dashboard Show Data Capstone"
+        path: sections/section-020/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 35m
+        topic: embedding
+        task_kind: troubleshooting
+        tags: [datasource-api, proxy, nginx, providers, panel]
+        learning_goals:
+          - Trace an empty panel through the app, nginx, the Perses proxy and the datasource
+          - Fix the proxy URL, the nginx route and the missing default datasource
+          - Prove the fix with a query that answers through the app's origin
+        resources:
+          - name: "Embedding Perses panels"
+            url: https://perses.dev/perses/docs/embedding-panels/
+          - name: "Datasource proxy"
+            url: https://perses.dev/perses/docs/concepts/proxy/
+          - name: "Datasources"
+            url: https://perses.dev/perses/docs/concepts/datasource/
+
+  - id: module-030
+    title: "Writing A Panel Plugin"
+    description: >
+      Plugin types, plugin modules and their archives, generating a panel
+      plugin with percli, the CUE schema and the React component, building the
+      archive and installing it into Perses with Helm.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-030/README.md
+
+      - type: reading
+        title: "Write And Install A Panel Plugin"
+        path: sections/section-030/module-01/course.md
+      - type: reading
+        title: "Plugin Modules And Archives"
+        path: sections/section-030/module-01/course-01-plugin-modules-and-archives.md
+      - type: reading
+        title: "Writing The StatusBadge Plugin"
+        path: sections/section-030/module-01/course-02-writing-the-statusbadge-plugin.md
+      - type: reading
+        title: "Building And Installing The Plugin"
+        path: sections/section-030/module-01/course-03-building-and-installing-the-plugin.md
+      - type: reading
+        title: Question
+        path: sections/section-030/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Build And Install The StatusBadge Panel Plugin Lab"
+        path: sections/section-030/module-01/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: plugins
+        task_kind: build
+        tags: [panel-plugin, cue-schema, percli-plugin, plugin-archive, helm-values, module-federation]
+        learning_goals:
+          - Write the CUE schema and React component of a panel plugin
+          - Build the plugin archive with percli and install it into Perses with a Helm values file
+          - Prove that Perses lists the plugin and validates dashboards against its schema
+        resources:
+          - name: "Creating a Perses plugin"
+            url: https://perses.dev/perses/docs/plugins/creation/
+          - name: "How to load a plugin"
+            url: https://github.com/perses/perses/blob/v0.54.0/docs/configuration/load-plugin.md
+          - name: "CUE in Perses"
+            url: https://perses.dev/perses/docs/plugins/cue/
+      - type: reading
+        title: Summary
+        path: sections/section-030/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-030/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Ship Version 0.2.0 Of A Panel Plugin Capstone"
+        path: sections/section-030/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: plugins
+        task_kind: migration
+        tags: [panel-plugin, cue-schema, plugin-archive, helm-values, percli-plugin]
+        learning_goals:
+          - Add an optional field to a plugin's schema, types and component
+          - Replace an installed plugin version with a new one so only one is loaded
+          - Prove the upgrade with a dashboard that uses the new field
+        resources:
+          - name: "Creating a Perses plugin"
+            url: https://perses.dev/perses/docs/plugins/creation/
+          - name: "How to load a plugin"
+            url: https://github.com/perses/perses/blob/v0.54.0/docs/configuration/load-plugin.md

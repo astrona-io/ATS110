@@ -1,0 +1,59 @@
+# Make An Embedded Dashboard Show Data
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-110-capstone-020"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "install-perses"
+      description: "Installs Helm and percli, adds the CoreDNS names, installs Perses and starts the builder"
+      type: "file"
+      source: "bootstrap/01-install-perses.sh"
+    - name: "ats-110-capstone-020-setup"
+      description: "Creates the starting state that the task works from"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-perses"
+      description: "Waits for Perses and the builder before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-perses.sh"
+    - name: "reference-solution"
+      description: "The work a correct learner does; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-global-datasource"
+      description: "Confirms the GlobalDatasource prometheus is back as the default"
+      type: "file"
+      source: "validation/validate-global-datasource.sh"
+    - name: "validate-nginx-proxy"
+      description: "Confirms nginx forwards /proxy/ to Perses"
+      type: "file"
+      source: "validation/validate-nginx-proxy.sh"
+    - name: "validate-proxy-from-app"
+      description: "Confirms a query reaches Prometheus through the app's origin"
+      type: "file"
+      source: "validation/validate-proxy-from-app.sh"
+    - name: "validate-bundle"
+      description: "Confirms the app builds proxy URLs instead of calling Prometheus directly"
+      type: "file"
+      source: "validation/validate-bundle.sh"
+    - name: "validate-app-served"
+      description: "Confirms the rebuilt app is served"
+      type: "file"
+      source: "validation/validate-app-served.sh"
+
+teardown:
+  keepCluster: false

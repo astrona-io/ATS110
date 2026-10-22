@@ -1,0 +1,153 @@
+# The app builder (Node.js, runs npm and Vite) and the nginx server that
+# serves the built app at app.localtest.me:8081. Both share the volume
+# app-dist: the builder writes the built files, nginx reads them.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: embed
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-dist
+  namespace: embed
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-builder-setup
+  namespace: embed
+data:
+  copy-source.sh: |
+    #!/bin/sh
+    # Copies the app source from the ConfigMap app-source into a writable
+    # folder: ConfigMap keys cannot hold folders, so src/ files are placed here.
+    set -eu
+    mkdir -p /workspace/app/src
+    cd /source
+    for file in package.json index.html vite.config.ts tsconfig.json; do
+      [ -f "$file" ] && cp "$file" /workspace/app/
+    done
+    for file in main.tsx App.tsx datasource-api.ts; do
+      [ -f "$file" ] && cp "$file" /workspace/app/src/
+    done
+    ls -la /workspace/app /workspace/app/src
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-builder
+  namespace: embed
+  labels:
+    app: app-builder
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: app-builder
+  template:
+    metadata:
+      labels:
+        app: app-builder
+    spec:
+      initContainers:
+        - name: copy-source
+          image: node:22.23.4-alpine3.24
+          command: ["sh", "/setup/copy-source.sh"]
+          volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+            - name: source
+              mountPath: /source
+            - name: setup
+              mountPath: /setup
+      containers:
+        - name: builder
+          image: node:22.23.4-alpine3.24
+          workingDir: /workspace/app
+          command: ["sh", "-c", "while true; do sleep 30; done"]
+          env:
+            - name: NODE_OPTIONS
+              value: --max-old-space-size=2048
+            - name: NPM_CONFIG_UPDATE_NOTIFIER
+              value: "false"
+          resources:
+            requests:
+              memory: 512Mi
+            limits:
+              memory: 3Gi
+          volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+            - name: app-dist
+              mountPath: /srv/dist
+      volumes:
+        - name: workspace
+          emptyDir: {}
+        - name: source
+          configMap:
+            name: app-source
+        - name: setup
+          configMap:
+            name: app-builder-setup
+        - name: app-dist
+          persistentVolumeClaim:
+            claimName: app-dist
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: embed-app
+  namespace: embed
+  labels:
+    app: embed-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: embed-app
+  template:
+    metadata:
+      labels:
+        app: embed-app
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.31.8-alpine
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: app-dist
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: app-dist
+          persistentVolumeClaim:
+            claimName: app-dist
+            readOnly: true
+        - name: nginx-conf
+          configMap:
+            name: embed-app-nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: embed-app
+  namespace: embed
+spec:
+  selector:
+    app: embed-app
+  ports:
+    - name: http
+      port: 8081
+      targetPort: http

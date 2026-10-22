@@ -1,0 +1,55 @@
+# Build And Install The StatusBadge Panel Plugin
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-110-lab-030-01"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "install-perses"
+      description: "Installs Helm and percli, adds the CoreDNS names, installs Perses and starts the builder"
+      type: "file"
+      source: "bootstrap/01-install-perses.sh"
+    - name: "ats-110-lab-030-01-setup"
+      description: "Creates the starting state that the task works from"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-perses"
+      description: "Waits for Perses and the builder before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-perses.sh"
+    - name: "reference-solution"
+      description: "The work a correct learner does; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-archive"
+      description: "Confirms the plugin archive holds the frontend and the CUE schema"
+      type: "file"
+      source: "validation/validate-archive.sh"
+    - name: "validate-plugin-loaded"
+      description: "Confirms Perses loads StatusBadge next to its own plugins"
+      type: "file"
+      source: "validation/validate-plugin-loaded.sh"
+    - name: "validate-schema-enforced"
+      description: "Confirms Perses validates StatusBadge panels against the schema"
+      type: "file"
+      source: "validation/validate-schema-enforced.sh"
+    - name: "validate-dashboard"
+      description: "Confirms the dashboard status uses StatusBadge"
+      type: "file"
+      source: "validation/validate-dashboard.sh"
+
+teardown:
+  keepCluster: false
