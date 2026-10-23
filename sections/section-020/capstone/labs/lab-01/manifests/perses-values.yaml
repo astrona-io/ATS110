@@ -21,6 +21,9 @@ config:
     file:
       folder: /perses
       extension: json
-# Lab environments are thrown away: no PersistentVolumeClaim.
+# The file database lives on a PersistentVolumeClaim, so projects, datasources
+# and dashboards survive the restart that installing a plugin causes. With an
+# emptyDir, every resource created through the API would be gone after it.
 persistence:
-  enabled: false
+  enabled: true
+  size: 1Gi
