@@ -47,8 +47,9 @@ put_plugin_file() {
 app_get() { kubectl -n observability exec deploy/tester -- curl -s "http://app.localtest.me:8081$1"; }
 
 echo "[env] Generating the plugin module status-badge and installing its npm packages (several minutes)..."
-plugin_sh "test -d status-badge || percli plugin generate --module.org=astrona --module.name=status-badge \
-  --plugin.type=Panel --plugin.name=status-badge --plugin.display-name='Status Badge' status-badge"
+# percli writes the module into the directory it is given, which must exist.
+plugin_sh "test -f status-badge/package.json || { mkdir -p status-badge && percli plugin generate --module.org=astrona --module.name=status-badge \
+  --plugin.type=Panel --plugin.name=status-badge --plugin.display-name='Status Badge' status-badge; }"
 plugin_sh "cd status-badge && npm install --no-audit --no-fund"
 
 echo "[lab] Starting state ready."

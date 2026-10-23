@@ -4,13 +4,13 @@ Perses ships charts, tables and gauges, but sometimes a team wants one specific 
 
 ## Generate the module
 
-`percli plugin generate` writes a complete plugin module from templates built into `percli`, so it needs no network. Run it in the builder pod, in `/workspace`:
+`percli plugin generate` writes a complete plugin module from templates built into `percli`, so it needs no network. It writes the files into the directory named as its last argument, and that directory must already exist. Create it and run the command in the builder pod, in `/workspace`:
 
 <!-- astrona:playground:renew -->
 
 ```sh
 plugin_builder() { kubectl -n perses exec -i deploy/plugin-builder -- sh -c "cd /workspace && $*"; }
-plugin_builder "percli plugin generate --module.org=astrona --module.name=status-badge \
+plugin_builder "mkdir -p status-badge && percli plugin generate --module.org=astrona --module.name=status-badge \
   --plugin.type=Panel --plugin.name=status-badge --plugin.display-name='Status Badge' status-badge"
 plugin_builder "find status-badge -path '*/node_modules' -prune -o -type f -print | sort"
 ```
@@ -177,6 +177,7 @@ You have now written a panel plugin: a schema the server enforces, and a compone
 ## Common pitfalls
 
 > [!WARNING]
+> - **Generating into a directory that does not exist.** `percli plugin generate` stops with `destination directory ... does not exists`. Create the directory first.
 > - **A schema `kind` that differs from the plugin name.** Perses matches the panel's `kind` with the schema's `kind`; `StatusBadge` must be the same in both.
 > - **Moving the schema out of package `model`.** Perses only reads schemas in that package.
 > - **Types that do not match the schema.** The schema decides what the server accepts; the types only help the compiler.
