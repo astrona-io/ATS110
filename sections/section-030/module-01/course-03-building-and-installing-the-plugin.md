@@ -17,10 +17,12 @@ npm installs the build tools (`rsbuild`, `swc`, TypeScript) and the peer depende
 
 ## Build the archive
 
-`percli plugin build` does three things in order. It runs `npm run build`, which builds the module federation files with `rsbuild` and the npm package files with `swc`, all into `dist/`. It runs `cue mod tidy`, which fetches the CUE modules the schemas may import; that is why the builder has `cue` on its PATH and needs internet access. Then it writes the archive into the module folder:
+`percli plugin build` does three things in order. It runs `npm run build`, which builds the module federation files with `rsbuild` and the npm package files with `swc`, all into `dist/`. It copies the CUE modules listed under `deps` in `cue.mod/module.cue` from CUE's download cache into the archive, running `cue mod tidy` to download them when they are missing; that is why the builder has `cue` on its PATH and needs internet access. Then it writes the archive into the module folder.
+
+The generated module lists two CUE modules, `github.com/perses/shared/cue` and `github.com/perses/spec/cue`. The `StatusBadge` schema imports neither, so `cue mod tidy` removes them from `module.cue`, and `percli` then stops with `failed to copy the dependency`. Run `cue mod tidy` yourself before the build, so that `module.cue` lists only what the schemas use:
 
 ```sh
-plugin_builder "cd status-badge && percli plugin build"
+plugin_builder "cd status-badge && cue mod tidy && percli plugin build"
 plugin_builder "ls status-badge/*.tar.gz && tar -tzf status-badge/StatusBadge-0.1.0.tar.gz | head -20"
 ```
 
@@ -90,6 +92,7 @@ You can now build a plugin archive, install it without hiding the bundled plugin
 
 > [!WARNING]
 > - **Running `percli plugin build` before `npm install`.** It falls back to `npm ci`, which fails without a lockfile.
+> - **Skipping `cue mod tidy` before the build.** When the schemas import fewer CUE modules than `module.cue` lists, `percli` stops with `failed to copy the dependency`.
 > - **Running `helm upgrade` before the archive is on the volume.** The kubelet creates an empty folder at the `subPath`, and Perses finds no archive.
 > - **Forgetting `--reuse-values`.** Helm then drops the values the release was installed with, and Perses comes back with the chart defaults.
 > - **Changing the archive without a restart.** A new file under the same name is only read when the Perses pod starts again.

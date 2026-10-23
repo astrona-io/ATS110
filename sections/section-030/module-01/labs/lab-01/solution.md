@@ -145,7 +145,7 @@ copy_to_plugin StatusBadge.tsx src/panels/status-badge/StatusBadge.tsx
 
 ```sh
 plugin_builder() { kubectl -n perses exec -i deploy/plugin-builder -- sh -c "cd /workspace && $*"; }
-plugin_builder "cd status-badge && percli plugin build"
+plugin_builder "cd status-badge && cue mod tidy && percli plugin build"
 plugin_builder "cp status-badge/StatusBadge-0.1.0.tar.gz /artifacts/ && tar -tzf /artifacts/StatusBadge-0.1.0.tar.gz | head -20"
 ```
 

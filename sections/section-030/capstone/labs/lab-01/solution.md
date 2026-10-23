@@ -87,7 +87,7 @@ plugin_builder "cd status-badge && npm pkg set version=0.2.0 && grep '\"version\
 ## Step 3: Build and publish the new archive
 
 ```sh
-plugin_builder "cd status-badge && percli plugin build && cp StatusBadge-0.2.0.tar.gz /artifacts/"
+plugin_builder "cd status-badge && cue mod tidy && percli plugin build && cp StatusBadge-0.2.0.tar.gz /artifacts/"
 plugin_builder "ls -l /artifacts"
 ```
 

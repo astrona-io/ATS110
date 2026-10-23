@@ -17,14 +17,29 @@ perses_call() {
 }
 http_code() { tail -n 1; }
 builder_sh() { kubectl -n embed exec -i deploy/app-builder -- sh -c "cd /workspace/app && $1"; }
+# send_to_pod NAMESPACE DEPLOYMENT LOCAL_FILE DESTINATION: writes a local file
+# into the pod. kubectl exec -i can drop the end of stdin (a file then arrives
+# short or empty), so the sizes are compared and the copy is repeated.
+send_to_pod() {
+  local want got
+  want="$(wc -c < "$3" | tr -d ' ')"
+  for _ in 1 2 3 4 5; do
+    kubectl -n "$1" exec -i "deploy/$2" -- sh -c "mkdir -p \"\$(dirname '$4')\" && cat > '$4'" < "$3" &&
+      got="$(kubectl -n "$1" exec "deploy/$2" -- sh -c "wc -c < '$4'" | tr -d ' ')" &&
+      [ "$got" = "$want" ] && return 0
+    sleep 1
+  done
+  echo "ERROR: $3 did not arrive whole at $2:$4." >&2
+  return 1
+}
 put_app_file() {
   # put_app_file LOCAL_FILE PATH_IN_APP
-  kubectl -n embed exec -i deploy/app-builder -- sh -c "mkdir -p \"\$(dirname '/workspace/app/$2')\" && cat > '/workspace/app/$2'" < "$1"
+  send_to_pod embed app-builder "$1" "/workspace/app/$2"
 }
 plugin_sh() { kubectl -n perses exec -i deploy/plugin-builder -- sh -c "cd /workspace && $1"; }
 put_plugin_file() {
   # put_plugin_file LOCAL_FILE PATH_IN_MODULE
-  kubectl -n perses exec -i deploy/plugin-builder -- sh -c "mkdir -p \"\$(dirname '/workspace/status-badge/$2')\" && cat > '/workspace/status-badge/$2'" < "$1"
+  send_to_pod perses plugin-builder "$1" "/workspace/status-badge/$2"
 }
 app_get() { kubectl -n observability exec deploy/tester -- curl -s "http://app.localtest.me:8081$1"; }
 
