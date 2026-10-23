@@ -9,7 +9,6 @@ metadata:
     question: "question.md"
     examQuestion: "question.md"
     prerequisites: "prerequisites.md"
-
 bootstrap:
   init:
     - name: "install-perses"
@@ -20,7 +19,6 @@ bootstrap:
       description: "Creates the starting state that the task works from"
       type: "file"
       source: "bootstrap/02-seed-state.sh"
-
 testing:
   init:
     - name: "wait-for-perses"
@@ -31,7 +29,6 @@ testing:
       description: "The work a correct learner does; used by `astrona test`"
       type: "file"
       source: "solution/apply.sh"
-
 validation:
   scripts:
     - name: "validate-global-datasource"
@@ -54,6 +51,13 @@ validation:
       description: "Confirms the rebuilt app is served"
       type: "file"
       source: "validation/validate-app-served.sh"
-
 teardown:
   keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - docker.io/persesdev/perses:v0.54.0
+      - nginx:1.31.8-alpine
+      - nicolaka/netshoot:v0.13
+      - node:22.23.4-alpine3.24
+      - prom/prometheus:v3.15.1
