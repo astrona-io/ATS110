@@ -43,11 +43,16 @@ put_plugin_file() {
 }
 app_get() { kubectl -n observability exec deploy/tester -- curl -s "http://app.localtest.me:8081$1"; }
 
-ANSWER="$(app_get '/proxy/globaldatasources/prometheus/api/v1/query?query=up')"
-if printf '%s' "$ANSWER" | grep -q '"status":"success"'; then
-  echo "PASS: /proxy/globaldatasources/prometheus answers through the app's origin."
-  exit 0
-fi
+# Right after nginx restarts, the Service can still point at the old pod for
+# a moment (connection refused), so try for up to 30 seconds.
+for _ in $(seq 1 10); do
+  ANSWER="$(app_get '/proxy/globaldatasources/prometheus/api/v1/query?query=up' 2>/dev/null || true)"
+  if printf '%s' "$ANSWER" | grep '"status":"success"' >/dev/null; then
+    echo "PASS: /proxy/globaldatasources/prometheus answers through the app's origin."
+    exit 0
+  fi
+  sleep 3
+done
 echo "FAIL: /proxy/globaldatasources/prometheus/api/v1/query on app.localtest.me:8081 did not answer with Prometheus data."
 echo "      First bytes of the answer: $(printf '%s' "$ANSWER" | head -c 120)"
 exit 1
