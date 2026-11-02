@@ -29,8 +29,6 @@ training:
     name: Perses
     code: PERSES
     provider: Astrona
-    domain: Embedded UI Packages & Plugin Development
-    weight: 15
 
 modules:
 
