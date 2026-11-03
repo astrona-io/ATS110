@@ -1,0 +1,246 @@
+# Knowledge check for section 020. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats110-020
+course_id: ATS110
+exam_code: PERSES
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-020
+  title: "Embedding Panels In A React Application"
+placement:
+  position: after
+  reading: sections/section-020/capstone/labs/lab-01/question.md
+questions:
+
+  - id: ats110-020-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define a provider"
+    source_readings:
+      - sections/section-020/module-01/course-01-the-providers.md
+    prompt: "What is a provider in a React application?"
+    options:
+      - id: a
+        text: "A function that fetches data from a server."
+        explanation: "Not correct. Fetching is done by queries, not by providers."
+      - id: b
+        text: "A component that makes a value available to every component inside it."
+        explanation: "Correct. A deep component reads the value without receiving it from each parent."
+      - id: c
+        text: "A pod that serves the built files."
+        explanation: "Not correct. That is the `embed-app` pod running nginx."
+      - id: d
+        text: "A list of plugins loaded at start."
+        explanation: "Not correct. The plugin loader does that. A provider only shares a value."
+    correct_option: b
+    explanation: "Correct. A deep component reads the value without receiving it from each parent."
+
+  - id: ats110-020-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Place each provider correctly"
+    source_readings:
+      - sections/section-020/module-01/course-01-the-providers.md
+    prompt: "Where must `DataQueriesProvider` sit?"
+    options:
+      - id: a
+        text: "Outside `PluginRegistry`."
+        explanation: "Not correct. It needs the registry to find the query plugin."
+      - id: b
+        text: "Directly inside `ThemeProvider`."
+        explanation: "Not correct. It would have no time range and no datasource store."
+      - id: c
+        text: "Anywhere, because the order does not matter."
+        explanation: "Not correct. The order matters. A missing provider above it causes errors."
+      - id: d
+        text: "Inside both `TimeRangeProvider` and `DatasourceStoreProvider`."
+        explanation: "Correct. It runs queries with the time range and the datasources."
+    correct_option: d
+    explanation: "Correct. It runs queries with the time range and the datasources."
+
+  - id: ats110-020-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Register a panel plugin"
+    source_readings:
+      - sections/section-020/module-01/course-01-the-providers.md
+    prompt: "A panel of kind `StatChart` fails with an error that the plugin cannot be found. `@perses-dev/stat-chart-plugin` is installed. What is missing?"
+    options:
+      - id: a
+        text: "A second `QueryClient`."
+        explanation: "Not correct. The query client has nothing to do with plugin lookup."
+      - id: b
+        text: "A `directUrl` on the datasource."
+        explanation: "Not correct. That setting sends queries to a fixed address and does not register plugins."
+      - id: c
+        text: "The app must import the package and list it in `dynamicImportPluginLoader`."
+        explanation: "Correct. `PluginRegistry` only knows the plugins its loader lists."
+      - id: d
+        text: "A newer version of React."
+        explanation: "Not correct. React is not the cause. The loader list is."
+    correct_option: c
+    explanation: "Correct. `PluginRegistry` only knows the plugins its loader lists."
+
+  - id: ats110-020-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain directUrl"
+    source_readings:
+      - sections/section-020/module-01/course-01-the-providers.md
+    prompt: "What does `directUrl` on a datasource mean?"
+    options:
+      - id: a
+        text: "The browser sends each query straight to that address."
+        explanation: "Correct. The browser then needs network access to it, and the server must allow cross-origin requests."
+      - id: b
+        text: "Perses forwards each query to that address."
+        explanation: "Not correct. That is the Perses proxy, which uses a `proxy` block."
+      - id: c
+        text: "nginx forwards each query to that address."
+        explanation: "Not correct. nginx only forwards `/api/` and `/proxy/` to Perses."
+      - id: d
+        text: "It marks the datasource as the default one."
+        explanation: "Not correct. The default is set with `spec.default`."
+    correct_option: a
+    explanation: "Correct. The browser then needs network access to it, and the server must allow cross-origin requests."
+
+  - id: ats110-020-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Select the default global datasource"
+    source_readings:
+      - sections/section-020/module-01/course-02-a-datasource-api-for-perses.md
+    prompt: "`getGlobalDatasource` receives a selector with a plugin kind and no name. Which datasource does the example code return?"
+    options:
+      - id: a
+        text: "The first datasource in the list."
+        explanation: "Not correct. The code looks for the default, not for the first entry."
+      - id: b
+        text: "All datasources of that kind."
+        explanation: "Not correct. The function returns one datasource."
+      - id: c
+        text: "None. It throws an error when no name is given."
+        explanation: "Not correct. A selector without a name is allowed."
+      - id: d
+        text: "The one of that kind with `spec.default` set to `true`."
+        explanation: "Correct. Without a name, the default datasource of that kind is meant."
+    correct_option: d
+    explanation: "Correct. Without a name, the default datasource of that kind is meant."
+
+  - id: ats110-020-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Build a Perses proxy path"
+    source_readings:
+      - sections/section-020/module-01/course-02-a-datasource-api-for-perses.md
+    prompt: "What is the path in the Perses proxy for a Prometheus query to the global datasource `prometheus`?"
+    options:
+      - id: a
+        text: "`/api/v1/globaldatasources/prometheus/query`."
+        explanation: "Not correct. That is the API path for the datasource object, not for queries."
+      - id: b
+        text: "`/proxy/globaldatasources/prometheus/` followed by the Prometheus API path."
+        explanation: "Correct. For example `/proxy/globaldatasources/prometheus/api/v1/query`."
+      - id: c
+        text: "`/proxy/datasources/prometheus/`."
+        explanation: "Not correct. This layout is for project datasources, not global ones."
+      - id: d
+        text: "`/prometheus/api/v1/query`."
+        explanation: "Not correct. The app has no such route. nginx only forwards `/api/` and `/proxy/`."
+    correct_option: b
+    explanation: "Correct. For example `/proxy/globaldatasources/prometheus/api/v1/query`."
+
+  - id: ats110-020-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Trace a failing proxy request"
+    source_readings:
+      - sections/section-020/module-01/course-02-a-datasource-api-for-perses.md
+    prompt: "nginx forwards `/api/` to Perses but not `/proxy/`. What does a query to `/proxy/...` return?"
+    options:
+      - id: a
+        text: "The app's `index.html`, because the location `/` falls back to it."
+        explanation: "Correct. The datasource is found, but the query never reaches Perses."
+      - id: b
+        text: "The JSON answer of Prometheus."
+        explanation: "Not correct. The request never reaches Prometheus."
+      - id: c
+        text: "An error from the Perses server."
+        explanation: "Not correct. The request never reaches Perses."
+      - id: d
+        text: "A refused connection to port 8081."
+        explanation: "Not correct. nginx still accepts the request. It answers with the fallback file."
+    correct_option: a
+    explanation: "Correct. The datasource is found, but the query never reaches Perses."
+
+  - id: ats110-020-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Give each panel its own queries"
+    source_readings:
+      - sections/section-020/module-01/course-03-panels-queries-and-time-range.md
+    prompt: "Two panels need different queries. How should the app be structured?"
+    options:
+      - id: a
+        text: "Both panels share one `DataQueriesProvider`."
+        explanation: "Not correct. Both panels would draw the results of the same queries."
+      - id: b
+        text: "Each panel gets its own `PluginRegistry`."
+        explanation: "Not correct. The registry is shared. Plugins do not change per panel."
+      - id: c
+        text: "Each panel gets its own `DataQueriesProvider`. The providers above it stay shared."
+        explanation: "Correct. `Panel` draws the results of the nearest `DataQueriesProvider`."
+      - id: d
+        text: "Each panel gets its own `DatasourceApi` class."
+        explanation: "Not correct. One class serves all panels."
+    correct_option: c
+    explanation: "Correct. `Panel` draws the results of the nearest `DataQueriesProvider`."
+
+  - id: ats110-020-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Change the shared time range"
+    source_readings:
+      - sections/section-020/module-01/course-03-panels-queries-and-time-range.md
+    prompt: "Two panels sit inside one `TimeRangeProvider`. You change `pastDuration` from `'1h'` to `'5m'` and rebuild. What happens?"
+    options:
+      - id: a
+        text: "Only the first panel changes."
+        explanation: "Not correct. Panels do not keep their own time range here."
+      - id: b
+        text: "Both panels query the last five minutes."
+        explanation: "Correct. Both read the time range from the same provider."
+      - id: c
+        text: "Nothing changes until the refresh interval is set to `0s`."
+        explanation: "Not correct. The time range and the refresh interval are separate values."
+      - id: d
+        text: "The build fails because the panels disagree."
+        explanation: "Not correct. Panels do not hold a time range of their own, so they cannot disagree."
+    correct_option: b
+    explanation: "Correct. Both read the time range from the same provider."
+
+  - id: ats110-020-q10
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Configure a StatChart panel"
+    source_readings:
+      - sections/section-020/module-01/course-03-panels-queries-and-time-range.md
+    prompt: "What does `calculation: 'last-number'` do in the spec of a `StatChart` panel?"
+    options:
+      - id: a
+        text: "It sets the refresh interval of the panel."
+        explanation: "Not correct. The refresh interval belongs to `TimeRangeProvider`."
+      - id: b
+        text: "It selects the datasource of the panel."
+        explanation: "Not correct. The datasource comes from `DatasourceStoreProvider`."
+      - id: c
+        text: "It counts the series that a query returns."
+        explanation: "Not correct. It reads the latest value and does not count series."
+      - id: d
+        text: "It turns a series into one value by taking the most recent value."
+        explanation: "Correct. The panel needs a calculation to reduce a series to one number."
+    correct_option: d
+    explanation: "Correct. The panel needs a calculation to reduce a series to one number."

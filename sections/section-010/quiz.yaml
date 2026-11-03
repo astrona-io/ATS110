@@ -1,0 +1,246 @@
+# Knowledge check for section 010. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats110-010
+course_id: ATS110
+exam_code: PERSES
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-010
+  title: "The Perses npm Packages"
+placement:
+  position: after
+  reading: sections/section-010/capstone/labs/lab-01/question.md
+questions:
+
+  - id: ats110-010-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name what each Perses npm package contains"
+    source_readings:
+      - sections/section-010/module-01/course-01-the-perses-npm-packages.md
+    prompt: "Which package holds the open specification types for dashboards, panels, variables, datasources and query results?"
+    options:
+      - id: a
+        text: "`@perses-dev/spec`"
+        explanation: "Correct. It holds the specification types. Every other package ends up depending on it."
+      - id: b
+        text: "`@perses-dev/dashboards`"
+        explanation: "Not correct. It holds the dashboard providers and the `Panel` component."
+      - id: c
+        text: "`@perses-dev/plugin-system`"
+        explanation: "Not correct. It handles plugin loading, the plugin registry and runtime state such as the time range."
+      - id: d
+        text: "`@perses-dev/explore`"
+        explanation: "Not correct. It holds the Explore view for ad-hoc queries."
+    correct_option: a
+    explanation: "Correct. It holds the specification types. Every other package ends up depending on it."
+
+  - id: ats110-010-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Recognize the deprecated package"
+    source_readings:
+      - sections/section-010/module-01/course-01-the-perses-npm-packages.md
+    prompt: "Which `@perses-dev` package is deprecated and must not be used in new code?"
+    options:
+      - id: a
+        text: "`@perses-dev/client`"
+        explanation: "Not correct. It is current. It holds types and helpers for talking to a Perses server."
+      - id: b
+        text: "`@perses-dev/components`"
+        explanation: "Not correct. It is current. It holds shared user interface components."
+      - id: c
+        text: "`@perses-dev/core`"
+        explanation: "Correct. Its types moved to `@perses-dev/spec` and `@perses-dev/client`."
+      - id: d
+        text: "`@perses-dev/spec`"
+        explanation: "Not correct. It is current. It is where the specification types now live."
+    correct_option: c
+    explanation: "Correct. Its types moved to `@perses-dev/spec` and `@perses-dev/client`."
+
+  - id: ats110-010-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find where the DatasourceApi interface is exported"
+    source_readings:
+      - sections/section-010/module-01/course-01-the-perses-npm-packages.md
+    prompt: "In the 0.54.0 packages, which package exports the `DatasourceApi` interface?"
+    options:
+      - id: a
+        text: "`@perses-dev/dashboards`"
+        explanation: "Not correct. An older guide uses this path, but it no longer matches the 0.54.0 packages."
+      - id: b
+        text: "`@perses-dev/client`"
+        explanation: "Correct. The interface moved there. The official guide still imports it from `@perses-dev/dashboards`."
+      - id: c
+        text: "`@perses-dev/core`"
+        explanation: "Not correct. This package is deprecated and does not hold the interface."
+      - id: d
+        text: "`@perses-dev/plugin-system`"
+        explanation: "Not correct. This package handles plugins and runtime state, not the API interface."
+    correct_option: b
+    explanation: "Correct. The interface moved there. The official guide still imports it from `@perses-dev/dashboards`."
+
+  - id: ats110-010-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain what happens to the builder source after a restart"
+    source_readings:
+      - sections/section-010/module-01/course-03-building-the-app-in-the-cluster.md
+    prompt: "The `app-builder` pod restarts. What happens to the edits you made in `/workspace/app`?"
+    options:
+      - id: a
+        text: "They stay, because `/workspace/app` is stored in the `app-dist` volume."
+        explanation: "Not correct. The volume `app-dist` holds the built files in `/srv/dist`, not the source."
+      - id: b
+        text: "They stay, because the init container only copies missing files."
+        explanation: "Not correct. The init container copies the source into the new empty folder."
+      - id: c
+        text: "They are written back to the `app-source` ConfigMap."
+        explanation: "Not correct. Nothing writes back to the ConfigMap. It is read-only."
+      - id: d
+        text: "They are lost. The folder is an `emptyDir`, so the pod copies the source from the `app-source` ConfigMap again."
+        explanation: "Correct. An `emptyDir` lives only as long as the pod. You copy your edits and run `npm install` again."
+    correct_option: d
+    explanation: "Correct. An `emptyDir` lives only as long as the pod. You copy your edits and run `npm install` again."
+
+  - id: ats110-010-q05
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Choose versions that fit the Perses server"
+    source_readings:
+      - sections/section-010/module-01/course-02-versions-and-peer-dependencies.md
+    prompt: "Which version do you use for `@perses-dev/client`, `components`, `plugin-system`, `dashboards` and `explore` when the Perses server is v0.54.0?"
+    options:
+      - id: a
+        text: "The newest version on npm."
+        explanation: "Not correct. Newer releases are built for newer Perses servers."
+      - id: b
+        text: "`0.58.0`, the version of the Prometheus plugin."
+        explanation: "Not correct. Each plugin has its own version line. It does not set the shared packages."
+      - id: c
+        text: "`0.54.0`, the same version as the Perses server."
+        explanation: "Correct. These packages are released together with the server."
+      - id: d
+        text: "`0.2.0`, the version of `@perses-dev/spec`."
+        explanation: "Not correct. Only `@perses-dev/spec` has that slower line."
+    correct_option: c
+    explanation: "Correct. These packages are released together with the server."
+
+  - id: ats110-010-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find the plugin versions a server runs"
+    source_readings:
+      - sections/section-010/module-01/course-02-versions-and-peer-dependencies.md
+    prompt: "How do you find which plugin versions your Perses server runs?"
+    options:
+      - id: a
+        text: "Send a request to `/api/v1/plugins` and read each module's name and version."
+        explanation: "Correct. The endpoint lists the loaded plugin modules and their versions."
+      - id: b
+        text: "Send a request to `/api/v1/globaldatasources`."
+        explanation: "Not correct. That endpoint lists datasources, not plugin modules."
+      - id: c
+        text: "Install the `latest` tag of each plugin package."
+        explanation: "Not correct. The latest tag is built for newer `@perses-dev` packages."
+      - id: d
+        text: "Run `npm ls` in the app folder."
+        explanation: "Not correct. That shows what the app installed, not what the server runs."
+    correct_option: a
+    explanation: "Correct. The endpoint lists the loaded plugin modules and their versions."
+
+  - id: ats110-010-q07
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define a peer dependency"
+    source_readings:
+      - sections/section-010/module-01/course-02-versions-and-peer-dependencies.md
+    prompt: "What is a peer dependency?"
+    options:
+      - id: a
+        text: "A package that npm installs inside the package's own folder."
+        explanation: "Not correct. That describes a normal dependency."
+      - id: b
+        text: "A build tool that is only needed during development."
+        explanation: "Not correct. That describes a `devDependencies` entry."
+      - id: c
+        text: "An optional package that npm skips when it is missing."
+        explanation: "Not correct. A peer dependency is required to fit the stated range."
+      - id: d
+        text: "Something a package needs but expects the application to provide, as one shared copy in an accepted version range."
+        explanation: "Correct. React is the usual example. A page must have exactly one copy."
+    correct_option: d
+    explanation: "Correct. React is the usual example. A page must have exactly one copy."
+
+  - id: ats110-010-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Fix an ERESOLVE error"
+    source_readings:
+      - sections/section-010/module-01/course-02-versions-and-peer-dependencies.md
+    prompt: "`npm install` stops with the error code `ERESOLVE`. What is the correct fix?"
+    options:
+      - id: a
+        text: "Add `--legacy-peer-deps` to the command."
+        explanation: "Not correct. The install succeeds, but the failure moves to the browser."
+      - id: b
+        text: "Read the package, the range it wants and the version found, then change that line in `package.json`."
+        explanation: "Correct. The message tells you which line to change."
+      - id: c
+        text: "Add `--force` to the command."
+        explanation: "Not correct. This also skips the check and hides the mismatch."
+      - id: d
+        text: "Add `@perses-dev/core` to `package.json`."
+        explanation: "Not correct. This package is deprecated and does not fix a peer range."
+    correct_option: b
+    explanation: "Correct. The message tells you which line to change."
+
+  - id: ats110-010-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Diagnose a blank page"
+    source_readings:
+      - sections/section-010/module-01/course-03-building-the-app-in-the-cluster.md
+    prompt: "The page served by nginx is blank. Which check finds the usual cause?"
+    options:
+      - id: a
+        text: "Check that the script path under `/assets/` returns JavaScript and not HTML."
+        explanation: "Correct. nginx falls back to `index.html` when a file is missing, and the browser cannot run HTML as a script."
+      - id: b
+        text: "Check that Prometheus holds data for the query."
+        explanation: "Not correct. A data problem shows an empty panel, not a blank page."
+      - id: c
+        text: "Run `npm audit` in the builder."
+        explanation: "Not correct. The audit lists known vulnerabilities and does not explain a blank page."
+      - id: d
+        text: "Check the version of the Perses Helm chart."
+        explanation: "Not correct. The chart version does not decide whether the script loads."
+    correct_option: a
+    explanation: "Correct. nginx falls back to `index.html` when a file is missing, and the browser cannot run HTML as a script."
+
+  - id: ats110-010-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Remember the build and deploy steps"
+    source_readings:
+      - sections/section-010/module-01/course-03-building-the-app-in-the-cluster.md
+    prompt: "You edited `src/App.tsx` and ran `npm run build`, but nginx still serves the old page. What is missing?"
+    options:
+      - id: a
+        text: "`npm install`."
+        explanation: "Not correct. It is only needed when `package.json` changes."
+      - id: b
+        text: "A restart of the `app-builder` pod."
+        explanation: "Not correct. A restart would reset the source folder and does not deploy anything."
+      - id: c
+        text: "`npm run deploy`, which copies `dist/` to `/srv/dist`."
+        explanation: "Correct. The build writes to `dist/` inside the builder only."
+      - id: d
+        text: "A new `app-source` ConfigMap."
+        explanation: "Not correct. The ConfigMap only seeds the source when the pod starts."
+    correct_option: c
+    explanation: "Correct. The build writes to `dist/` inside the builder only."

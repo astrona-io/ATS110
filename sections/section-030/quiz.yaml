@@ -1,0 +1,246 @@
+# Knowledge check for section 030. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats110-030
+course_id: ATS110
+exam_code: PERSES
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-030
+  title: "Writing A Panel Plugin"
+placement:
+  position: after
+  reading: sections/section-030/capstone/labs/lab-01/question.md
+questions:
+
+  - id: ats110-030-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Tell the plugin types apart"
+    source_readings:
+      - sections/section-030/module-01/course-01-plugin-modules-and-archives.md
+    prompt: "Which Perses plugin type fetches data through a datasource for one data type, such as time series?"
+    options:
+      - id: a
+        text: "A panel plugin."
+        explanation: "Not correct. A panel draws query results."
+      - id: b
+        text: "A variable plugin."
+        explanation: "Not correct. A variable provides values for a dashboard variable."
+      - id: c
+        text: "A query plugin."
+        explanation: "Correct. `PrometheusTimeSeriesQuery` is an example."
+      - id: d
+        text: "A datasource plugin."
+        explanation: "Not correct. A datasource connects to a data backend."
+    correct_option: c
+    explanation: "Correct. `PrometheusTimeSeriesQuery` is an example."
+
+  - id: ats110-030-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define a plugin module"
+    source_readings:
+      - sections/section-030/module-01/course-01-plugin-modules-and-archives.md
+    prompt: "What is a plugin module?"
+    options:
+      - id: a
+        text: "One npm package that holds one or more plugins."
+        explanation: "Correct. The Prometheus module holds a datasource, a query, variables and an explore plugin."
+      - id: b
+        text: "One React component that draws a panel."
+        explanation: "Not correct. A module can hold several plugins of several types."
+      - id: c
+        text: "One CUE file that describes a schema."
+        explanation: "Not correct. The schema is only one part of a module."
+      - id: d
+        text: "One Kubernetes pod that runs a plugin."
+        explanation: "Not correct. A module is a package, not a pod."
+    correct_option: a
+    explanation: "Correct. The Prometheus module holds a datasource, a query, variables and an explore plugin."
+
+  - id: ats110-030-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the two halves of a plugin"
+    source_readings:
+      - sections/section-030/module-01/course-01-plugin-modules-and-archives.md
+    prompt: "Which half of a plugin does the Perses server use, and for what?"
+    options:
+      - id: a
+        text: "The React code, to draw the panel on the server."
+        explanation: "Not correct. The browser runs the React code."
+      - id: b
+        text: "The module federation manifest, to validate dashboards."
+        explanation: "Not correct. The browser reads the manifest to load the JavaScript."
+      - id: c
+        text: "The `rsbuild` output, to build the archive at start."
+        explanation: "Not correct. The archive is built before Perses starts, with `percli plugin build`."
+      - id: d
+        text: "The CUE schema, to check a plugin's settings when a dashboard is saved."
+        explanation: "Correct. The server enforces the schema."
+    correct_option: d
+    explanation: "Correct. The server enforces the schema."
+
+  - id: ats110-030-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain how the browser loads a plugin"
+    source_readings:
+      - sections/section-030/module-01/course-01-plugin-modules-and-archives.md
+    prompt: "How does the browser get the code of a plugin?"
+    options:
+      - id: a
+        text: "The code is bundled into the Perses web page at build time."
+        explanation: "Not correct. Plugins are separate builds loaded while the page runs."
+      - id: b
+        text: "It fetches the module's manifest from `/plugins/<module name>/`, then the JavaScript files, using module federation."
+        explanation: "Correct. The page loads each module at run time, only when it needs it."
+      - id: c
+        text: "The browser reads the CUE schema and compiles it."
+        explanation: "Not correct. The schema stays on the server."
+      - id: d
+        text: "The browser downloads the archive and extracts it."
+        explanation: "Not correct. The server extracts the archive. The browser fetches single files."
+    correct_option: b
+    explanation: "Correct. The page loads each module at run time, only when it needs it."
+
+  - id: ats110-030-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Know when a new archive is loaded"
+    source_readings:
+      - sections/section-030/module-01/course-01-plugin-modules-and-archives.md
+    prompt: "You copy a new archive into the plugin archive folder while Perses is running. When does Perses load it?"
+    options:
+      - id: a
+        text: "When Perses starts again."
+        explanation: "Correct. Perses reads the archive folder only at start."
+      - id: b
+        text: "Immediately, when the file appears."
+        explanation: "Not correct. Perses does not watch the folder."
+      - id: c
+        text: "At the next dashboard save."
+        explanation: "Not correct. A save only validates settings against loaded schemas."
+      - id: d
+        text: "When a browser reloads the page."
+        explanation: "Not correct. The browser does not trigger loading."
+    correct_option: a
+    explanation: "Correct. Perses reads the archive folder only at start."
+
+  - id: ats110-030-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Add one archive without hiding bundled plugins"
+    source_readings:
+      - sections/section-030/module-01/course-03-building-and-installing-the-plugin.md
+    prompt: "How do you add `StatusBadge-0.1.0.tar.gz` to the Perses pod without hiding the bundled plugins?"
+    options:
+      - id: a
+        text: "Mount the whole volume at `/etc/perses/plugins-archive`."
+        explanation: "Not correct. The bundled plugins disappear and dashboards with a time series chart break."
+      - id: b
+        text: "Copy the archive into `/etc/perses/plugins` while Perses runs."
+        explanation: "Not correct. That is the extracted folder, and a running server does not read new archives."
+      - id: c
+        text: "Mount that one file from the volume with a `subPath` into `/etc/perses/plugins-archive`."
+        explanation: "Correct. The rest of the folder stays as it is."
+      - id: d
+        text: "Replace the Perses image with an empty one."
+        explanation: "Not correct. The bundled plugins would be gone."
+    correct_option: c
+    explanation: "Correct. The rest of the folder stays as it is."
+
+  - id: ats110-030-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read a CUE schema"
+    source_readings:
+      - sections/section-030/module-01/course-02-writing-the-statusbadge-plugin.md
+    prompt: "What does `close({...})` do in the schema `spec: close({ label: string, warning: number, critical: number })`?"
+    options:
+      - id: a
+        text: "It makes every field optional."
+        explanation: "Not correct. A field is optional only with a `?`."
+      - id: b
+        text: "It allows only the listed fields, so a panel with any other field is refused."
+        explanation: "Correct. The three fields are required because none of them has a `?`."
+      - id: c
+        text: "It closes the plugin so it cannot be updated."
+        explanation: "Not correct. It limits the fields of the spec and does not lock the plugin."
+      - id: d
+        text: "It converts the fields to strings."
+        explanation: "Not correct. It does not change types. `warning` stays a number."
+    correct_option: b
+    explanation: "Correct. The three fields are required because none of them has a `?`."
+
+  - id: ats110-030-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Match the schema to the plugin"
+    source_readings:
+      - sections/section-030/module-01/course-02-writing-the-statusbadge-plugin.md
+    prompt: "What must be true of the schema file of the `StatusBadge` plugin?"
+    options:
+      - id: a
+        text: "Its `kind` can have any value, because the TypeScript types decide."
+        explanation: "Not correct. The schema decides what the server accepts. The types only help the compiler."
+      - id: b
+        text: "It must be written in JSON Schema."
+        explanation: "Not correct. Perses plugin schemas are written in CUE."
+      - id: c
+        text: "It must be in the CUE package `main`."
+        explanation: "Not correct. Perses only reads schemas in the package `model`."
+      - id: d
+        text: "Its `kind` is `StatusBadge`, the plugin name, and it stays in the CUE package `model`."
+        explanation: "Correct. Perses matches the panel kind with the schema kind and reads only that package."
+    correct_option: d
+    explanation: "Correct. Perses matches the panel kind with the schema kind and reads only that package."
+
+  - id: ats110-030-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Fix a failing plugin build"
+    source_readings:
+      - sections/section-030/module-01/course-03-building-and-installing-the-plugin.md
+    prompt: "`percli plugin build` stops with `failed to copy the dependency`. What is the cause and the fix?"
+    options:
+      - id: a
+        text: "The archive folder is full. Delete old archives."
+        explanation: "Not correct. The error is about CUE dependencies, not disk space."
+      - id: b
+        text: "The lockfile is missing. Run `npm ci`."
+        explanation: "Not correct. A missing lockfile causes an `npm ci` failure, not this error."
+      - id: c
+        text: "`module.cue` lists CUE modules that the schemas do not import. Run `cue mod tidy` before the build."
+        explanation: "Correct. `cue mod tidy` removes unused entries so the list matches the schemas."
+      - id: d
+        text: "Perses is not running. Start it first."
+        explanation: "Not correct. The build does not need a running Perses server."
+    correct_option: c
+    explanation: "Correct. `cue mod tidy` removes unused entries so the list matches the schemas."
+
+  - id: ats110-030-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Understand schema validation of dashboards"
+    source_readings:
+      - sections/section-030/module-01/course-03-building-and-installing-the-plugin.md
+    prompt: "You apply a dashboard whose `StatusBadge` panel has `warning: \"high\"`. What happens?"
+    options:
+      - id: a
+        text: "The Perses server refuses the dashboard with a schema validation error, and the stored dashboard stays as it was."
+        explanation: "Correct. The server checks the CUE schema before any browser sees the panel."
+      - id: b
+        text: "The dashboard is saved and the browser shows an error."
+        explanation: "Not correct. The check happens on the server when the dashboard is saved."
+      - id: c
+        text: "The server converts `\"high\"` to the number `0`."
+        explanation: "Not correct. The server does not convert values."
+      - id: d
+        text: "The panel is saved without the `warning` field."
+        explanation: "Not correct. The server does not drop invalid fields."
+    correct_option: a
+    explanation: "Correct. The server checks the CUE schema before any browser sees the panel."

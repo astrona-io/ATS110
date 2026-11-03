@@ -123,6 +123,11 @@ modules:
           - name: "UI package architecture"
             url: https://github.com/perses/perses/blob/v0.54.0/docs/ui-package-architecture.md
 
+      - type: quiz
+        title: "Knowledge Check: The Perses npm Packages"
+        path: sections/section-010/quiz.yaml
+        pass_score: 70
+
   - id: module-020
     title: "Embedding Panels In A React Application"
     description: >
@@ -194,6 +199,11 @@ modules:
           - name: "Datasources"
             url: https://perses.dev/perses/docs/concepts/datasource/
 
+      - type: quiz
+        title: "Knowledge Check: Embedding Panels In A React Application"
+        path: sections/section-020/quiz.yaml
+        pass_score: 70
+
   - id: module-030
     title: "Writing A Panel Plugin"
     description: >
@@ -264,3 +274,11 @@ modules:
             url: https://perses.dev/perses/docs/plugins/creation/
           - name: "How to load a plugin"
             url: https://github.com/perses/perses/blob/v0.54.0/docs/configuration/load-plugin.md
+      - type: quiz
+        title: "Knowledge Check: Writing A Panel Plugin"
+        path: sections/section-030/quiz.yaml
+        pass_score: 70
+      - type: quiz
+        title: "Final Domain Quiz"
+        path: sections/final-domain-quiz.yaml
+        pass_score: 70

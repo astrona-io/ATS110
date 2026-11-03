@@ -1,0 +1,220 @@
+# Final domain knowledge check across all three sections.
+schema_version: 1
+kind: question_bank
+id: ats110-final
+course_id: ATS110
+exam_code: PERSES
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: domain
+  id: embedded-ui-packages-and-plugin-development
+  title: "Embedded UI Packages & Plugin Development"
+questions:
+
+  - id: ats110-final-q01
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find where the DatasourceApi interface is exported"
+    source_readings:
+      - sections/section-010/module-01/course-01-the-perses-npm-packages.md
+    prompt: "In the 0.54.0 packages, which package exports the `DatasourceApi` interface?"
+    options:
+      - id: a
+        text: "`@perses-dev/dashboards`"
+        explanation: "Not correct. An older guide uses this path, but it no longer matches the 0.54.0 packages."
+      - id: b
+        text: "`@perses-dev/client`"
+        explanation: "Correct. The interface moved there. The official guide still imports it from `@perses-dev/dashboards`."
+      - id: c
+        text: "`@perses-dev/core`"
+        explanation: "Not correct. This package is deprecated and does not hold the interface."
+      - id: d
+        text: "`@perses-dev/plugin-system`"
+        explanation: "Not correct. This package handles plugins and runtime state, not the API interface."
+    correct_option: b
+    explanation: "Correct. The interface moved there. The official guide still imports it from `@perses-dev/dashboards`."
+
+  - id: ats110-final-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Fix an ERESOLVE error"
+    source_readings:
+      - sections/section-010/module-01/course-02-versions-and-peer-dependencies.md
+    prompt: "`npm install` stops with the error code `ERESOLVE`. What is the correct fix?"
+    options:
+      - id: a
+        text: "Add `--legacy-peer-deps` to the command."
+        explanation: "Not correct. The install succeeds, but the failure moves to the browser."
+      - id: b
+        text: "Read the package, the range it wants and the version found, then change that line in `package.json`."
+        explanation: "Correct. The message tells you which line to change."
+      - id: c
+        text: "Add `--force` to the command."
+        explanation: "Not correct. This also skips the check and hides the mismatch."
+      - id: d
+        text: "Add `@perses-dev/core` to `package.json`."
+        explanation: "Not correct. This package is deprecated and does not fix a peer range."
+    correct_option: b
+    explanation: "Correct. The message tells you which line to change."
+
+  - id: ats110-final-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Remember the build and deploy steps"
+    source_readings:
+      - sections/section-010/module-01/course-03-building-the-app-in-the-cluster.md
+    prompt: "You edited `src/App.tsx` and ran `npm run build`, but nginx still serves the old page. What is missing?"
+    options:
+      - id: a
+        text: "`npm install`."
+        explanation: "Not correct. It is only needed when `package.json` changes."
+      - id: b
+        text: "A restart of the `app-builder` pod."
+        explanation: "Not correct. A restart would reset the source folder and does not deploy anything."
+      - id: c
+        text: "`npm run deploy`, which copies `dist/` to `/srv/dist`."
+        explanation: "Correct. The build writes to `dist/` inside the builder only."
+      - id: d
+        text: "A new `app-source` ConfigMap."
+        explanation: "Not correct. The ConfigMap only seeds the source when the pod starts."
+    correct_option: c
+    explanation: "Correct. The build writes to `dist/` inside the builder only."
+
+  - id: ats110-final-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Place each provider correctly"
+    source_readings:
+      - sections/section-020/module-01/course-01-the-providers.md
+    prompt: "Where must `DataQueriesProvider` sit?"
+    options:
+      - id: a
+        text: "Outside `PluginRegistry`."
+        explanation: "Not correct. It needs the registry to find the query plugin."
+      - id: b
+        text: "Directly inside `ThemeProvider`."
+        explanation: "Not correct. It would have no time range and no datasource store."
+      - id: c
+        text: "Anywhere, because the order does not matter."
+        explanation: "Not correct. The order matters. A missing provider above it causes errors."
+      - id: d
+        text: "Inside both `TimeRangeProvider` and `DatasourceStoreProvider`."
+        explanation: "Correct. It runs queries with the time range and the datasources."
+    correct_option: d
+    explanation: "Correct. It runs queries with the time range and the datasources."
+
+  - id: ats110-final-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Trace a failing proxy request"
+    source_readings:
+      - sections/section-020/module-01/course-02-a-datasource-api-for-perses.md
+    prompt: "nginx forwards `/api/` to Perses but not `/proxy/`. What does a query to `/proxy/...` return?"
+    options:
+      - id: a
+        text: "The app's `index.html`, because the location `/` falls back to it."
+        explanation: "Correct. The datasource is found, but the query never reaches Perses."
+      - id: b
+        text: "The JSON answer of Prometheus."
+        explanation: "Not correct. The request never reaches Prometheus."
+      - id: c
+        text: "An error from the Perses server."
+        explanation: "Not correct. The request never reaches Perses."
+      - id: d
+        text: "A refused connection to port 8081."
+        explanation: "Not correct. nginx still accepts the request. It answers with the fallback file."
+    correct_option: a
+    explanation: "Correct. The datasource is found, but the query never reaches Perses."
+
+  - id: ats110-final-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Change the shared time range"
+    source_readings:
+      - sections/section-020/module-01/course-03-panels-queries-and-time-range.md
+    prompt: "Two panels sit inside one `TimeRangeProvider`. You change `pastDuration` from `'1h'` to `'5m'` and rebuild. What happens?"
+    options:
+      - id: a
+        text: "Only the first panel changes."
+        explanation: "Not correct. Panels do not keep their own time range here."
+      - id: b
+        text: "Both panels query the last five minutes."
+        explanation: "Correct. Both read the time range from the same provider."
+      - id: c
+        text: "Nothing changes until the refresh interval is set to `0s`."
+        explanation: "Not correct. The time range and the refresh interval are separate values."
+      - id: d
+        text: "The build fails because the panels disagree."
+        explanation: "Not correct. Panels do not hold a time range of their own, so they cannot disagree."
+    correct_option: b
+    explanation: "Correct. Both read the time range from the same provider."
+
+  - id: ats110-final-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the two halves of a plugin"
+    source_readings:
+      - sections/section-030/module-01/course-01-plugin-modules-and-archives.md
+    prompt: "Which half of a plugin does the Perses server use, and for what?"
+    options:
+      - id: a
+        text: "The React code, to draw the panel on the server."
+        explanation: "Not correct. The browser runs the React code."
+      - id: b
+        text: "The module federation manifest, to validate dashboards."
+        explanation: "Not correct. The browser reads the manifest to load the JavaScript."
+      - id: c
+        text: "The `rsbuild` output, to build the archive at start."
+        explanation: "Not correct. The archive is built before Perses starts, with `percli plugin build`."
+      - id: d
+        text: "The CUE schema, to check a plugin's settings when a dashboard is saved."
+        explanation: "Correct. The server enforces the schema."
+    correct_option: d
+    explanation: "Correct. The server enforces the schema."
+
+  - id: ats110-final-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Know when a new archive is loaded"
+    source_readings:
+      - sections/section-030/module-01/course-01-plugin-modules-and-archives.md
+    prompt: "You copy a new archive into the plugin archive folder while Perses is running. When does Perses load it?"
+    options:
+      - id: a
+        text: "When Perses starts again."
+        explanation: "Correct. Perses reads the archive folder only at start."
+      - id: b
+        text: "Immediately, when the file appears."
+        explanation: "Not correct. Perses does not watch the folder."
+      - id: c
+        text: "At the next dashboard save."
+        explanation: "Not correct. A save only validates settings against loaded schemas."
+      - id: d
+        text: "When a browser reloads the page."
+        explanation: "Not correct. The browser does not trigger loading."
+    correct_option: a
+    explanation: "Correct. Perses reads the archive folder only at start."
+
+  - id: ats110-final-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Fix a failing plugin build"
+    source_readings:
+      - sections/section-030/module-01/course-03-building-and-installing-the-plugin.md
+    prompt: "`percli plugin build` stops with `failed to copy the dependency`. What is the cause and the fix?"
+    options:
+      - id: a
+        text: "The archive folder is full. Delete old archives."
+        explanation: "Not correct. The error is about CUE dependencies, not disk space."
+      - id: b
+        text: "The lockfile is missing. Run `npm ci`."
+        explanation: "Not correct. A missing lockfile causes an `npm ci` failure, not this error."
+      - id: c
+        text: "`module.cue` lists CUE modules that the schemas do not import. Run `cue mod tidy` before the build."
+        explanation: "Correct. `cue mod tidy` removes unused entries so the list matches the schemas."
+      - id: d
+        text: "Perses is not running. Start it first."
+        explanation: "Not correct. The build does not need a running Perses server."
+    correct_option: c
+    explanation: "Correct. `cue mod tidy` removes unused entries so the list matches the schemas."
