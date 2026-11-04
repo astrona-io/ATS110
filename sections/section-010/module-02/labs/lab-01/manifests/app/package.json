@@ -18,7 +18,7 @@
     "@perses-dev/dashboards": "^0.55.0",
     "@perses-dev/explore": "^0.55.0",
     "@perses-dev/plugin-system": "^0.54.0",
-    "@perses-dev/prometheus-plugin": "^0.58.0",
+    "@perses-dev/prometheus-plugin": "^0.59.0",
     "@perses-dev/spec": "^0.2.0",
     "@perses-dev/stat-chart-plugin": "^0.13.0",
     "@perses-dev/timeseries-chart-plugin": "^0.13.0",
