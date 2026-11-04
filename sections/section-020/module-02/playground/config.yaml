@@ -1,0 +1,30 @@
+# Embedding Panels In A React Application (PLAYGROUND) — Playground environment
+# A sandbox: it spins up, prepares the environment, then stays running for
+# free exploration. No task, no grading, no `astrona submit`.
+# Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-110-playground-020-02"
+  docs:
+    guide: "docs/overview.md"
+bootstrap:
+  init:
+    - name: "prepare"
+      description: "Install Helm and percli, add the CoreDNS names, install Perses and start the module's builder."
+      type: "file"
+      source: "bootstrap/prepare.sh"
+  manifests:
+    - name: "lab-start"
+      description: "Prometheus and the tester pod."
+      type: "file"
+      source: "manifests/lab-start.yaml"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - docker.io/persesdev/perses:v0.54.0
+      - nginx:1.31.8-alpine
+      - nicolaka/netshoot:v0.13
+      - node:22.23.4-alpine3.24
+      - prom/prometheus:v3.15.1

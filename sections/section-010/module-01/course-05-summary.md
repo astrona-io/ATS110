@@ -10,5 +10,6 @@ Building happens in the cluster. The builder pod runs `npm install`, then `vite 
 - React must be 18 (or 17) and ECharts exactly 5.5.0 for the 0.54 packages.
 - One copy of each shared package; two copies of `@perses-dev/plugin-system` means two plugin registries.
 - Build, then deploy; nginx serves only what reached the shared volume.
+- A finished build proves little: run `npm ls --all`, `npm run typecheck`, then request the built script and the proxy path to see what a browser would get.
 
 <!-- astrona:playground:destroy -->

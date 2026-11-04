@@ -96,32 +96,3 @@ You can now build a plugin archive, install it without hiding the bundled plugin
 > - **Running `helm upgrade` before the archive is on the volume.** The kubelet creates an empty folder at the `subPath`, and Perses finds no archive.
 > - **Forgetting `--reuse-values`.** Helm then drops the values the release was installed with, and Perses comes back with the chart defaults.
 > - **Changing the archive without a restart.** A new file under the same name is only read when the Perses pod starts again.
-
-## Your mission: Build And Install The StatusBadge Panel Plugin
-
-You can now write a panel plugin, build its archive, install it and use it. The graded lab gives you a freshly generated `status-badge` module with its packages installed, and asks you to turn it into the badge, install it next to the bundled plugins, and create the dashboard `status`.
-
-The lab runs in its own cluster, so first pause your playground. Nothing in it is lost:
-
-```sh
-astrona stop ats-110-playground-030-01
-```
-
-Then start the lab:
-
-```sh
-astrona run --git ssh://git@github.com/astrona-io/ATS110.git -c sections/section-030/module-01/labs/lab-01
-```
-
-The task is on the next page. Solve it on your own first. When you think you are done, send it for grading:
-
-```sh
-astrona submit -c sections/section-030/module-01/labs/lab-01
-```
-
-When the lab is done, remove it and start your playground again:
-
-```sh
-astrona destroy ats-110-lab-030-01
-astrona start ats-110-playground-030-01
-```

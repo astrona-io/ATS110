@@ -1,0 +1,101 @@
+# The plugin builder: Node.js plus percli and cue, which percli plugin build
+# needs. Built archives go to the volume plugin-artifacts, which the Perses
+# pod can mount.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plugin-artifacts
+  namespace: perses
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: plugin-builder-setup
+  namespace: perses
+data:
+  install-tools.sh: |
+    #!/bin/sh
+    # Downloads percli and cue into /tools (shared with the builder container).
+    set -eu
+    PERSES_VERSION=0.54.0
+    CUE_VERSION=0.17.1
+    ARCH="$(uname -m)"
+    case "$ARCH" in x86_64) ARCH=amd64 ;; aarch64|arm64) ARCH=arm64 ;; esac
+    cd /tmp
+    wget -q "https://github.com/perses/perses/releases/download/v${PERSES_VERSION}/perses_${PERSES_VERSION}_linux_${ARCH}.tar.gz" -O perses.tgz
+    tar -xzf perses.tgz percli
+    mv percli /tools/percli
+    wget -q "https://github.com/cue-lang/cue/releases/download/v${CUE_VERSION}/cue_v${CUE_VERSION}_linux_${ARCH}.tar.gz" -O cue.tgz
+    tar -xzf cue.tgz cue
+    mv cue /tools/cue
+    chmod 0755 /tools/percli /tools/cue
+    ls -l /tools
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plugin-builder
+  namespace: perses
+  labels:
+    app: plugin-builder
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: plugin-builder
+  template:
+    metadata:
+      labels:
+        app: plugin-builder
+    spec:
+      initContainers:
+        - name: install-tools
+          image: node:22.23.4-alpine3.24
+          command: ["sh", "/setup/install-tools.sh"]
+          volumeMounts:
+            - name: tools
+              mountPath: /tools
+            - name: setup
+              mountPath: /setup
+      containers:
+        - name: builder
+          image: node:22.23.4-alpine3.24
+          workingDir: /workspace
+          command: ["sh", "-c", "while true; do sleep 30; done"]
+          env:
+            - name: PATH
+              value: /tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+            - name: NODE_OPTIONS
+              value: --max-old-space-size=2048
+            - name: NPM_CONFIG_UPDATE_NOTIFIER
+              value: "false"
+          resources:
+            requests:
+              memory: 512Mi
+            limits:
+              memory: 3Gi
+          volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+            - name: tools
+              mountPath: /tools
+            - name: plugin-artifacts
+              mountPath: /artifacts
+      volumes:
+        - name: workspace
+          emptyDir: {}
+        - name: tools
+          emptyDir: {}
+        - name: setup
+          configMap:
+            name: plugin-builder-setup
+        - name: plugin-artifacts
+          persistentVolumeClaim:
+            claimName: plugin-artifacts

@@ -4,7 +4,7 @@ A dashboard server is useful, but sometimes the dashboard has to live somewhere 
 
 This module is about those packages. Keep one sentence in mind: **the packages, their plugins and the Perses server must come from the same release.** Most problems people meet when they first embed Perses come from mixing versions, and npm reports them as peer dependency errors that are easy to misread.
 
-The module has three parts. **What Is In The Perses npm Packages** names each package and shows how they depend on each other. **Versions And Peer Dependencies** explains how to choose versions that fit Perses v0.54.0, and how to read the tree npm installed. **Building The App In The Cluster** builds a small React application with those packages and serves it with nginx. A graded lab follows the third part.
+The module has four parts. **What Is In The Perses npm Packages** names each package and shows how they depend on each other. **Versions And Peer Dependencies** explains how to choose versions that fit Perses v0.54.0, and how to read the tree npm installed. **Building The App In The Cluster** builds a small React application with those packages and serves it with nginx. **Checking The App Before And After A Build** gives you a short list of checks for the package tree, the types, the bundle and what nginx serves. A graded lab follows the fourth part.
 
 ## Learning objectives
 
@@ -16,6 +16,7 @@ After this module you can:
 - Explain what a peer dependency is and read an npm `ERESOLVE` error.
 - Check an installed tree with `npm ls` and spot two copies of one package.
 - Build a React application with Vite in a builder pod and serve it with nginx.
+- Check an app before the build (`npm ls`, `npm outdated`, the type check) and after the deploy (the script's content type and the proxy path).
 
 ## Before you start
 

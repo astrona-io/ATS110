@@ -10,5 +10,7 @@ A plugin has two halves. The server uses a CUE schema, in package `model`, to ch
 - Never mount over the whole archive folder; the bundled plugins disappear.
 - A new archive is loaded only after Perses restarts.
 - The server, not the browser, rejects a panel whose settings break the schema.
+- `percli plugin lint` checks the module format and schemas in seconds; it does not compile the React code.
+- `percli plugin start` shows changes live, but installs nothing.
 
 <!-- astrona:playground:destroy -->

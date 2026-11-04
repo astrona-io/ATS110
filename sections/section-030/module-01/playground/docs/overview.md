@@ -21,7 +21,7 @@ To see Perses, run `kubectl -n perses port-forward svc/perses 8080:8080` in a se
 
 ## Practice tasks
 
-- Run `percli plugin generate --help` in the builder and generate a second plugin of type `Variable` into the same module.
+- Run `percli plugin generate --help` in the builder and generate a second plugin of type `TimeSeriesQuery` into the same module.
 - Make `warning` optional in the schema with `warning?: number`, rebuild, reinstall, and save a dashboard without it.
 - Run `cue vet` on a JSON example that breaks the schema and read the message.
 - Build the archive with `percli plugin build --archive-format zip` and compare its listing with the `.tar.gz` one.

@@ -10,8 +10,8 @@ which is **15% of the path**. Written for **Perses v0.54.0** and the
 > packages. None has been started on a cluster, and no lab has passed
 > `astrona test` yet. See `CLAUDE.md` for the first things to check.
 
-The course opens with an Introduction in `sections/intro/`. Each section has a
-module (landing page, parts, summary, playground, a graded lab placed right
+The course opens with an Introduction in `sections/intro/`. Each section has
+modules (landing page, parts, summary, playground, a graded lab placed right
 after the part it tests) and a capstone.
 
 ---
@@ -20,9 +20,9 @@ after the part it tests) and a capstone.
 
 | Section | Title | Modules | Labs | Topic |
 | --- | --- | --- | --- | --- |
-| [010](sections/section-010) | The Perses npm Packages | 1 | 1 + capstone | Packages and versions |
-| [020](sections/section-020) | Embedding Panels In A React Application | 1 | 1 + capstone | Embedding |
-| [030](sections/section-030) | Writing A Panel Plugin | 1 | 1 + capstone | Plugins |
+| [010](sections/section-010) | The Perses npm Packages | 2 | 2 + capstone | Packages and versions |
+| [020](sections/section-020) | Embedding Panels In A React Application | 3 | 3 + capstone | Embedding |
+| [030](sections/section-030) | Writing A Panel Plugin | 3 | 3 + capstone | Plugins |
 
 ---
 
@@ -30,9 +30,14 @@ after the part it tests) and a capstone.
 
 | Module | Reader | Parts | Labs |
 | --- | --- | --- | --- |
-| 010-01 | [Use The Perses npm Packages](sections/section-010/module-01/course.md) | 3 | [lab-01](sections/section-010/module-01/labs/lab-01) |
-| 020-01 | [Embed Perses Panels In A React Application](sections/section-020/module-01/course.md) | 3 | [lab-01](sections/section-020/module-01/labs/lab-01) |
-| 030-01 | [Write And Install A Panel Plugin](sections/section-030/module-01/course.md) | 3 | [lab-01](sections/section-030/module-01/labs/lab-01) |
+| 010-01 | [Use The Perses npm Packages](sections/section-010/module-01/course.md) | 4 | [lab-01](sections/section-010/module-01/labs/lab-01) |
+| 010-02 | [Keep The Dependencies Reproducible](sections/section-010/module-02/course.md) | 4 | [lab-01](sections/section-010/module-02/labs/lab-01) |
+| 020-01 | [Embed Perses Panels In A React Application](sections/section-020/module-01/course.md) | 4 | [lab-01](sections/section-020/module-01/labs/lab-01) |
+| 020-02 | [Add Variables And Time Controls To An Embedded App](sections/section-020/module-02/course.md) | 4 | [lab-01](sections/section-020/module-02/labs/lab-01) |
+| 020-03 | [Render A Saved Dashboard In A React Application](sections/section-020/module-03/course.md) | 4 | [lab-01](sections/section-020/module-03/labs/lab-01) |
+| 030-01 | [Write And Install A Panel Plugin](sections/section-030/module-01/course.md) | 4 | [lab-01](sections/section-030/module-01/labs/lab-01) |
+| 030-02 | [Constrain And Test Plugin Schemas](sections/section-030/module-02/course.md) | 4 | [lab-01](sections/section-030/module-02/labs/lab-01) |
+| 030-03 | [Query And Datasource Plugins](sections/section-030/module-03/course.md) | 4 | [lab-01](sections/section-030/module-03/labs/lab-01) |
 
 ## Capstones
 

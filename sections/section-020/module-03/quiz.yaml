@@ -1,0 +1,246 @@
+# Knowledge check for module 020-03. Listed in astrona.yaml as a `type: quiz` entry after the module lab.
+schema_version: 1
+kind: question_bank
+id: ats110-020-03
+course_id: ATS110
+exam_code: PERSES
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: module
+  id: module-020-03
+  title: "Rendering A Saved Dashboard"
+placement:
+  position: after
+  reading: sections/section-020/module-03/labs/lab-01/question.md
+questions:
+
+  - id: ats110-020-03-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Locate a saved dashboard"
+    source_readings:
+      - sections/section-020/module-03/course-01-what-a-saved-dashboard-contains.md
+    prompt: "At which API path does the course read the dashboard `overview` of the project `inventory`?"
+    options:
+      - id: a
+        text: "`/api/v1/dashboards/inventory/overview`"
+        explanation: "Not correct. The project comes first."
+      - id: b
+        text: "`/api/v1/projects/inventory/dashboards/overview`"
+        explanation: "Correct. A dashboard belongs to a project."
+      - id: c
+        text: "`/proxy/projects/inventory/overview`"
+        explanation: "Not correct. The proxy path is for datasources."
+      - id: d
+        text: "`/plugins/overview`"
+        explanation: "Not correct. That path serves plugin files."
+    correct_option: b
+    explanation: "Correct. A dashboard belongs to a project."
+
+  - id: ats110-020-03-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Read the layout"
+    source_readings:
+      - sections/section-020/module-03/course-01-what-a-saved-dashboard-contains.md
+    prompt: "A panel is in `spec.panels` but no layout item refers to it. What happens?"
+    options:
+      - id: a
+        text: "It is drawn at the top."
+        explanation: "Not correct. Only referenced panels are drawn."
+      - id: b
+        text: "The dashboard is refused."
+        explanation: "Not correct. Saving works."
+      - id: c
+        text: "It is stored but not drawn."
+        explanation: "Correct. A grid item places a panel with a JSON reference such as `#/spec/panels/up`."
+      - id: d
+        text: "It is drawn at random."
+        explanation: "Not correct. Nothing is random."
+    correct_option: c
+    explanation: "Correct. A grid item places a panel with a JSON reference such as `#/spec/panels/up`."
+
+  - id: ats110-020-03-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Say what DashboardProvider needs"
+    source_readings:
+      - sections/section-020/module-03/course-02-rendering-a-dashboard.md
+    prompt: "How is the saved dashboard passed to `DashboardProvider`?"
+    options:
+      - id: a
+        text: "With the prop `url`."
+        explanation: "Not correct. It does not fetch by itself."
+      - id: b
+        text: "With a route parameter."
+        explanation: "Not correct. No router is needed."
+      - id: c
+        text: "With the prop `panels`."
+        explanation: "Not correct. It takes a state object."
+      - id: d
+        text: "With the prop `initialState={{ dashboardResource }}`."
+        explanation: "Correct. The provider reads the resource once."
+    correct_option: d
+    explanation: "Correct. The provider reads the resource once."
+
+  - id: ats110-020-03-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Say what Dashboard draws"
+    source_readings:
+      - sections/section-020/module-03/course-02-rendering-a-dashboard.md
+    prompt: "Which of these does the `Dashboard` component draw?"
+    options:
+      - id: a
+        text: "One grid for each layout group, with each panel and its queries."
+        explanation: "Correct. The controls are added with `VariableList` and `TimeRangeControls`."
+      - id: b
+        text: "The variable controls."
+        explanation: "Not correct. Add `VariableList` for those."
+      - id: c
+        text: "The time range controls."
+        explanation: "Not correct. Add `TimeRangeControls` for those."
+      - id: d
+        text: "A toolbar with an edit button."
+        explanation: "Not correct. It draws no toolbar."
+    correct_option: a
+    explanation: "Correct. The controls are added with `VariableList` and `TimeRangeControls`."
+
+  - id: ats110-020-03-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Pass the saved duration on"
+    source_readings:
+      - sections/section-020/module-03/course-02-rendering-a-dashboard.md
+    prompt: "Who sets the starting time range from the saved `duration` of the dashboard?"
+    options:
+      - id: a
+        text: "`Dashboard`, automatically."
+        explanation: "Not correct. It does not read the duration."
+      - id: b
+        text: "The app, by passing it to `TimeRangeProvider`; `Dashboard` does not."
+        explanation: "Correct. Without it the page starts with its own default range."
+      - id: c
+        text: "The Perses server, on each request."
+        explanation: "Not correct. The server stores it but does not apply it."
+      - id: d
+        text: "The browser."
+        explanation: "Not correct. The browser does not know it."
+    correct_option: b
+    explanation: "Correct. Without it the page starts with its own default range."
+
+  - id: ats110-020-03-q06
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the datasource levels"
+    source_readings:
+      - sections/section-020/module-03/course-03-datasources-at-three-levels.md
+    prompt: "In which order does `DatasourceStoreProvider` look for a datasource?"
+    options:
+      - id: a
+        text: "Global, then project, then dashboard."
+        explanation: "Not correct. The order is the reverse."
+      - id: b
+        text: "Project, then global, then dashboard."
+        explanation: "Not correct. The dashboard level comes first."
+      - id: c
+        text: "The dashboard, then the project, then the global datasources."
+        explanation: "Correct. The first level with a match wins."
+      - id: d
+        text: "Only the global level."
+        explanation: "Not correct. Three levels are searched."
+    correct_option: c
+    explanation: "Correct. The first level with a match wins."
+
+  - id: ats110-020-03-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the project datasource methods"
+    source_readings:
+      - sections/section-020/module-03/course-03-datasources-at-three-levels.md
+    prompt: "What does a page need in its `DatasourceApi` to use a project datasource?"
+    options:
+      - id: a
+        text: "Only `buildProxyUrl`."
+        explanation: "Not correct. That builds the proxy address only."
+      - id: b
+        text: "A second `QueryClient`."
+        explanation: "Not correct. That is unrelated."
+      - id: c
+        text: "A `Dashboard` prop."
+        explanation: "Not correct. It is an API method."
+      - id: d
+        text: "`getDatasource` and `listDatasources`, reading `/api/v1/projects/<project>/datasources`."
+        explanation: "Correct. Without them the store cannot find the project level."
+    correct_option: d
+    explanation: "Correct. Without them the store cannot find the project level."
+
+  - id: ats110-020-03-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Build the proxy URL for a project datasource"
+    source_readings:
+      - sections/section-020/module-03/course-03-datasources-at-three-levels.md
+    prompt: "What is the proxy path for the project datasource `inventory-prometheus` in the project `inventory`?"
+    options:
+      - id: a
+        text: "`/proxy/projects/inventory/datasources/inventory-prometheus`"
+        explanation: "Correct. Each level has its own proxy path."
+      - id: b
+        text: "`/proxy/globaldatasources/inventory-prometheus`"
+        explanation: "Not correct. That is the global path."
+      - id: c
+        text: "`/api/v1/proxy/inventory-prometheus`"
+        explanation: "Not correct. That prefix is not used."
+      - id: d
+        text: "`/projects/inventory/inventory-prometheus`"
+        explanation: "Not correct. It lacks the proxy prefix."
+    correct_option: a
+    explanation: "Correct. Each level has its own proxy path."
+
+  - id: ats110-020-03-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Pick the default datasource"
+    source_readings:
+      - sections/section-020/module-03/course-03-datasources-at-three-levels.md
+    prompt: "A query selector names only a kind. Which datasource does the store pick?"
+    options:
+      - id: a
+        text: "The first datasource in alphabetical order."
+        explanation: "Not correct. The default flag decides."
+      - id: b
+        text: "The default datasource of that kind, at the first level that has one."
+        explanation: "Correct. A name is only needed to pick a specific one."
+      - id: c
+        text: "A random one of that kind."
+        explanation: "Not correct. The choice is not random."
+      - id: d
+        text: "None; the selector must have a name."
+        explanation: "Not correct. A kind alone is allowed."
+    correct_option: b
+    explanation: "Correct. A name is only needed to pick a specific one."
+
+  - id: ats110-020-03-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Order the work of loading"
+    source_readings:
+      - sections/section-020/module-03/course-04-when-a-dashboard-does-not-render.md
+    prompt: "Why must the page load the dashboard before it builds the providers?"
+    options:
+      - id: a
+        text: "The browser blocks providers without a dashboard."
+        explanation: "Not correct. The browser has no such rule."
+      - id: b
+        text: "npm needs the dashboard to install."
+        explanation: "Not correct. npm is not involved."
+      - id: c
+        text: "The providers read the dashboard once, at the start."
+        explanation: "Correct. A provider created too early keeps an empty state."
+      - id: d
+        text: "The proxy refuses requests otherwise."
+        explanation: "Not correct. The proxy does not check this."
+    correct_option: c
+    explanation: "Correct. A provider created too early keeps an empty state."

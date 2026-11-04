@@ -4,7 +4,7 @@ A team wants one value on its dashboards as a coloured badge: green while it is 
 
 Keep one sentence in mind: **a plugin has two halves, a CUE schema the server uses to check settings and a React component the browser uses to draw, and Perses loads both from one archive.**
 
-The module has three parts. **Plugin Modules And Archives** explains the plugin types, the module that groups them, and how Perses loads archives at start. **Writing The StatusBadge Plugin** generates a module with `percli` and writes the schema and the component. **Building And Installing The Plugin** builds the archive, mounts it into Perses with Helm, and uses the panel in a dashboard. A graded lab follows the third part.
+The module has four parts. **Plugin Modules And Archives** explains the plugin types, the module that groups them, and how Perses loads archives at start. **Writing The StatusBadge Plugin** generates a module with `percli` and writes the schema and the component. **Building And Installing The Plugin** builds the archive, mounts it into Perses with Helm, and uses the panel in a dashboard. **Checking The Module Before And While You Build** uses `percli plugin lint` and `percli plugin start` to find faults before the slow steps. A graded lab follows the fourth part.
 
 ## Learning objectives
 
@@ -17,6 +17,7 @@ After this module you can:
 - Build an archive with `percli plugin build`, and explain what it runs.
 - Install an archive into Perses with a Helm values file, without hiding the bundled plugins.
 - Prove a plugin works with `/api/v1/plugins` and a dashboard that uses it.
+- Check a module with `percli plugin lint`, and say what `percli plugin start` does and needs.
 
 ## Before you start
 

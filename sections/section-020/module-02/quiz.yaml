@@ -1,0 +1,246 @@
+# Knowledge check for module 020-02. Listed in astrona.yaml as a `type: quiz` entry after the module lab.
+schema_version: 1
+kind: question_bank
+id: ats110-020-02
+course_id: ATS110
+exam_code: PERSES
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: module
+  id: module-020-02
+  title: "Variables And The Time Range"
+placement:
+  position: after
+  reading: sections/section-020/module-02/labs/lab-01/question.md
+questions:
+
+  - id: ats110-020-02-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Say what holds variable values"
+    source_readings:
+      - sections/section-020/module-02/course-01-how-variables-work.md
+    prompt: "Which component holds the values of dashboard variables for the panels in an embedded app?"
+    options:
+      - id: a
+        text: "`DatasourceStoreProvider`"
+        explanation: "Not correct. That provider finds datasources."
+      - id: b
+        text: "`VariableProvider`"
+        explanation: "Correct. Panels and `VariableList` read the values from it."
+      - id: c
+        text: "`QueryClientProvider`"
+        explanation: "Not correct. That provider belongs to the data-fetching library."
+      - id: d
+        text: "`PluginRegistry`"
+        explanation: "Not correct. That provider loads plugins."
+    correct_option: b
+    explanation: "Correct. Panels and `VariableList` read the values from it."
+
+  - id: ats110-020-02-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Tell the variable kinds apart"
+    source_readings:
+      - sections/section-020/module-02/course-01-how-variables-work.md
+    prompt: "Which plugin reads the values of one label from Prometheus for a list variable?"
+    options:
+      - id: a
+        text: "`PrometheusLabelNamesVariable`"
+        explanation: "Not correct. That plugin returns the names of the labels."
+      - id: b
+        text: "`TextVariable`"
+        explanation: "Not correct. A text variable holds one typed value."
+      - id: c
+        text: "`PrometheusLabelValuesVariable`"
+        explanation: "Correct. The names plugin returns label names, not label values."
+      - id: d
+        text: "`PrometheusTimeSeriesQuery`"
+        explanation: "Not correct. That is a query plugin for panels."
+    correct_option: c
+    explanation: "Correct. The names plugin returns label names, not label values."
+
+  - id: ats110-020-02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use several values in a selector"
+    source_readings:
+      - sections/section-020/module-02/course-01-how-variables-work.md
+    prompt: "A variable allows several values. How does the course write the selector?"
+    options:
+      - id: a
+        text: "With `=`, because Prometheus joins the values."
+        explanation: "Not correct. `=` compares the whole text."
+      - id: b
+        text: "With `!=`, to exclude the values."
+        explanation: "Not correct. That excludes the values."
+      - id: c
+        text: "With a space between the values."
+        explanation: "Not correct. That is not valid selector syntax."
+      - id: d
+        text: "With `=~`, because several values are written as `(a|b)`."
+        explanation: "Correct. Only a regular expression match understands `(a|b)`."
+    correct_option: d
+    explanation: "Correct. Only a regular expression match understands `(a|b)`."
+
+  - id: ats110-020-02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the All value"
+    source_readings:
+      - sections/section-020/module-02/course-01-how-variables-work.md
+    prompt: "What is the value of the \"All\" choice before it is replaced?"
+    options:
+      - id: a
+        text: "The string `$__all`, which becomes every option or the `customAllValue`."
+        explanation: "Correct. The replacement happens before the query is sent."
+      - id: b
+        text: "An empty string."
+        explanation: "Not correct. An empty string would be a real value."
+      - id: c
+        text: "The first option of the list."
+        explanation: "Not correct. All means every option."
+      - id: d
+        text: "The number 0."
+        explanation: "Not correct. It is a string."
+    correct_option: a
+    explanation: "Correct. The replacement happens before the query is sent."
+
+  - id: ats110-020-02-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Pass definitions without a loop"
+    source_readings:
+      - sections/section-020/module-02/course-02-adding-a-variable-to-the-app.md
+    prompt: "Where should the array passed as `initialVariableDefinitions` be defined?"
+    options:
+      - id: a
+        text: "Inside the component, so it is new on every render."
+        explanation: "Not correct. A new array each render causes a reset."
+      - id: b
+        text: "Outside the component, so it keeps the same identity on every render."
+        explanation: "Correct. A new array on every render can reset the variable state."
+      - id: c
+        text: "Inside `useEffect` only."
+        explanation: "Not correct. That does not give the provider a stable value."
+      - id: d
+        text: "In the `.npmrc` file."
+        explanation: "Not correct. `.npmrc` is not for application data."
+    correct_option: b
+    explanation: "Correct. A new array on every render can reset the variable state."
+
+  - id: ats110-020-02-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Place VariableList correctly"
+    source_readings:
+      - sections/section-020/module-02/course-02-adding-a-variable-to-the-app.md
+    prompt: "Inside which providers must `VariableList` be placed?"
+    options:
+      - id: a
+        text: "Only `TimeRangeProvider`."
+        explanation: "Not correct. The time range alone is not enough."
+      - id: b
+        text: "Only `PluginRegistry`."
+        explanation: "Not correct. The registry alone is not enough."
+      - id: c
+        text: "Both `VariableProvider` and `DatasourceStoreProvider`."
+        explanation: "Correct. It reads the variables and runs the options queries through the datasource store."
+      - id: d
+        text: "No provider is needed."
+        explanation: "Not correct. It fails without them."
+    correct_option: c
+    explanation: "Correct. It reads the variables and runs the options queries through the datasource store."
+
+  - id: ats110-020-02-q07
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Tell the two time range forms apart"
+    source_readings:
+      - sections/section-020/module-02/course-03-the-time-range-in-depth.md
+    prompt: "Which fields describe an absolute time range?"
+    options:
+      - id: a
+        text: "`pastDuration` only."
+        explanation: "Not correct. That is the relative form."
+      - id: b
+        text: "`refreshInterval` and `timeZone`."
+        explanation: "Not correct. Those control refreshing and display."
+      - id: c
+        text: "`step` and `duration`."
+        explanation: "Not correct. Those are not time range fields."
+      - id: d
+        text: "`start` and `end`, as `Date` objects."
+        explanation: "Correct. A relative range uses `pastDuration`."
+    correct_option: d
+    explanation: "Correct. A relative range uses `pastDuration`."
+
+  - id: ats110-020-02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the hook that gives the time range"
+    source_readings:
+      - sections/section-020/module-02/course-03-the-time-range-in-depth.md
+    prompt: "Which hook gives a component the time range, the resolved start and end, and the setters?"
+    options:
+      - id: a
+        text: "`useTimeRange`"
+        explanation: "Correct. It also gives the refresh interval and its setter."
+      - id: b
+        text: "`useDataQueries`"
+        explanation: "Not correct. That hook runs and reads queries."
+      - id: c
+        text: "`useDatasourceStore`"
+        explanation: "Not correct. That hook gives datasource access."
+      - id: d
+        text: "`usePlugin`"
+        explanation: "Not correct. That is not the time range hook."
+    correct_option: a
+    explanation: "Correct. It also gives the refresh interval and its setter."
+
+  - id: ats110-020-02-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Quote a query with a variable"
+    source_readings:
+      - sections/section-020/module-02/course-04-when-a-variable-or-a-panel-stays-empty.md
+    prompt: "A query contains `${name}` and is written in a shell command. Which quotes does the course use?"
+    options:
+      - id: a
+        text: "Double quotes, so the shell fills in the value."
+        explanation: "Not correct. The shell would replace it with an empty string."
+      - id: b
+        text: "Single quotes, so the shell does not replace `${name}`."
+        explanation: "Correct. The double quote form lets the shell substitute the text before curl sees it."
+      - id: c
+        text: "No quotes."
+        explanation: "Not correct. Special characters would be split or expanded."
+      - id: d
+        text: "Backticks."
+        explanation: "Not correct. Backticks run a command."
+    correct_option: b
+    explanation: "Correct. The double quote form lets the shell substitute the text before curl sees it."
+
+  - id: ats110-020-02-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Find the first place to look"
+    source_readings:
+      - sections/section-020/module-02/course-04-when-a-variable-or-a-panel-stays-empty.md
+    prompt: "A variable list is empty. What does the course say to check first?"
+    options:
+      - id: a
+        text: "Reinstall all npm packages."
+        explanation: "Not correct. That changes nothing about the request."
+      - id: b
+        text: "Change the React version."
+        explanation: "Not correct. The version is rarely the cause."
+      - id: c
+        text: "The options request in the network tab: its address, its status and its answer."
+        explanation: "Correct. The request shows whether the fault is in the query, the datasource or the app."
+      - id: d
+        text: "Delete the dashboard."
+        explanation: "Not correct. That destroys the evidence."
+    correct_option: c
+    explanation: "Correct. The request shows whether the fault is in the query, the datasource or the app."

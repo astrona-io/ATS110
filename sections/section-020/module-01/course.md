@@ -4,7 +4,7 @@ The official Perses guide for embedding shows one panel with a hard-coded Promet
 
 Keep one sentence in mind: **a panel draws, the providers around it supply everything else, and the `DatasourceApi` decides where its queries go.**
 
-The module has three parts. **The Providers A Panel Needs** goes through the nested providers one by one. **A DatasourceApi That Uses The Perses Proxy** replaces the hard-coded datasource with one read from Perses, and sends every query through the Perses proxy. **Panels, Queries And The Time Range** puts several panels on the page with their own queries and one shared time range. A graded lab follows the third part.
+The module has four parts. **The Providers A Panel Needs** goes through the nested providers one by one. **A DatasourceApi That Uses The Perses Proxy** replaces the hard-coded datasource with one read from Perses, and sends every query through the Perses proxy. **Panels, Queries And The Time Range** puts several panels on the page with their own queries and one shared time range. **When A Panel Stays Empty** gives a way to find the failing layer from the requests. A graded lab follows the fourth part.
 
 ## Learning objectives
 
@@ -17,6 +17,7 @@ After this module you can:
 - Explain why the app and the Perses API share one origin.
 - Render a `TimeSeriesChart` and a `StatChart` panel, each with its own query.
 - Set the time range and the refresh interval for every panel at once.
+- Find which layer makes a panel empty by reading its requests.
 
 ## Before you start
 

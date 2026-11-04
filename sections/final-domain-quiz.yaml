@@ -1,4 +1,4 @@
-# Final domain knowledge check across all three sections.
+# Final domain knowledge check across all three sections, including the dependency, variable, saved dashboard, schema test and query and datasource plugin modules.
 schema_version: 1
 kind: question_bank
 id: ats110-final
@@ -218,3 +218,233 @@ questions:
         explanation: "Not correct. The build does not need a running Perses server."
     correct_option: c
     explanation: "Correct. `cue mod tidy` removes unused entries so the list matches the schemas."
+
+  - id: ats110-final-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose the install command for a build"
+    source_readings:
+      - sections/section-010/module-02/course-02-installing-the-same-tree-every-time.md
+    prompt: "Why does an automated build use `npm ci` and not `npm install`?"
+    options:
+      - id: a
+        text: "`npm ci` installs the newest version allowed by each range."
+        explanation: "Not correct. This does not match the course."
+      - id: b
+        text: "`npm ci` runs faster because it skips the lockfile."
+        explanation: "Not correct. This does not match the course."
+      - id: c
+        text: "`npm ci` installs exactly what the lockfile lists and stops if the lockfile and `package.json` disagree."
+        explanation: "Correct. This matches the course."
+      - id: d
+        text: "`npm ci` keeps the existing `node_modules` and adds to it."
+        explanation: "Not correct. This does not match the course."
+    correct_option: c
+    explanation: "Correct. This matches the course."
+
+  - id: ats110-final-q11
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find a second copy of a package"
+    source_readings:
+      - sections/section-010/module-02/course-03-finding-duplicate-and-wrong-copies.md
+    prompt: "Which command lists every path to `react` in the dependency tree?"
+    options:
+      - id: a
+        text: "`npm audit react`"
+        explanation: "Not correct. This does not match the course."
+      - id: b
+        text: "`npm view react`"
+        explanation: "Not correct. This does not match the course."
+      - id: c
+        text: "`npm prune react`"
+        explanation: "Not correct. This does not match the course."
+      - id: d
+        text: "`npm ls react --all`"
+        explanation: "Correct. This matches the course."
+    correct_option: d
+    explanation: "Correct. This matches the course."
+
+  - id: ats110-final-q12
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use variables in a query"
+    source_readings:
+      - sections/section-020/module-02/course-01-how-variables-work.md
+    prompt: "A list variable allows several values. How is it used in a PromQL selector?"
+    options:
+      - id: a
+        text: "With `=~`, because several values are joined as `(a|b)`."
+        explanation: "Correct. This matches the course."
+      - id: b
+        text: "With `=`, because Prometheus joins the values itself."
+        explanation: "Not correct. This does not match the course."
+      - id: c
+        text: "With `!=`, to list the values."
+        explanation: "Not correct. This does not match the course."
+      - id: d
+        text: "It cannot be used in a selector."
+        explanation: "Not correct. This does not match the course."
+    correct_option: a
+    explanation: "Correct. This matches the course."
+
+  - id: ats110-final-q13
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Place VariableList"
+    source_readings:
+      - sections/section-020/module-02/course-02-adding-a-variable-to-the-app.md
+    prompt: "Inside which providers must `VariableList` be placed?"
+    options:
+      - id: a
+        text: "Only `TimeRangeProvider`."
+        explanation: "Not correct. This does not match the course."
+      - id: b
+        text: "`VariableProvider` and `DatasourceStoreProvider`."
+        explanation: "Correct. This matches the course."
+      - id: c
+        text: "Only `PluginRegistry`."
+        explanation: "Not correct. This does not match the course."
+      - id: d
+        text: "None; it works anywhere."
+        explanation: "Not correct. This does not match the course."
+    correct_option: b
+    explanation: "Correct. This matches the course."
+
+  - id: ats110-final-q14
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Hand a saved dashboard to the provider"
+    source_readings:
+      - sections/section-020/module-03/course-02-rendering-a-dashboard.md
+    prompt: "How does the app give a saved dashboard to `DashboardProvider`?"
+    options:
+      - id: a
+        text: "With a `url` prop that the provider fetches."
+        explanation: "Not correct. This does not match the course."
+      - id: b
+        text: "With a route parameter."
+        explanation: "Not correct. This does not match the course."
+      - id: c
+        text: "With `initialState={{ dashboardResource }}`, after the app has loaded the resource from the API."
+        explanation: "Correct. This matches the course."
+      - id: d
+        text: "With the `panels` prop only."
+        explanation: "Not correct. This does not match the course."
+    correct_option: c
+    explanation: "Correct. This matches the course."
+
+  - id: ats110-final-q15
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Order of datasource lookup"
+    source_readings:
+      - sections/section-020/module-03/course-03-datasources-at-three-levels.md
+    prompt: "In which order does `DatasourceStoreProvider` search for a datasource?"
+    options:
+      - id: a
+        text: "Global, then project, then dashboard."
+        explanation: "Not correct. This does not match the course."
+      - id: b
+        text: "Project, then global, then dashboard."
+        explanation: "Not correct. This does not match the course."
+      - id: c
+        text: "Only the global datasources."
+        explanation: "Not correct. This does not match the course."
+      - id: d
+        text: "The dashboard, then the project, then the global datasources."
+        explanation: "Correct. This matches the course."
+    correct_option: d
+    explanation: "Correct. This matches the course."
+
+  - id: ats110-final-q16
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Make a schema strict"
+    source_readings:
+      - sections/section-030/module-02/course-02-constraining-values-in-cue.md
+    prompt: "Which rule accepts 0 and positive numbers and refuses negative numbers in a CUE schema?"
+    options:
+      - id: a
+        text: "`number & >=0`"
+        explanation: "Correct. This matches the course."
+      - id: b
+        text: "`number & >0`"
+        explanation: "Not correct. This does not match the course."
+      - id: c
+        text: "`int & <0`"
+        explanation: "Not correct. This does not match the course."
+      - id: d
+        text: "`number | 0`"
+        explanation: "Not correct. This does not match the course."
+    correct_option: a
+    explanation: "Correct. This matches the course."
+
+  - id: ats110-final-q17
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Place schema tests"
+    source_readings:
+      - sections/section-030/module-02/course-03-testing-schemas-with-percli.md
+    prompt: "Where do the files that a schema must refuse go, and what do they contain?"
+    options:
+      - id: a
+        text: "In `tests/valid`, with only the `spec`."
+        explanation: "Not correct. This does not match the course."
+      - id: b
+        text: "In `tests/invalid` next to the schema file, each holding a full `{kind, spec}` object."
+        explanation: "Correct. This matches the course."
+      - id: c
+        text: "In the module root, with only the `kind`."
+        explanation: "Not correct. This does not match the course."
+      - id: d
+        text: "In `cue.mod`, as CUE files."
+        explanation: "Not correct. This does not match the course."
+    correct_option: b
+    explanation: "Correct. This matches the course."
+
+  - id: ats110-final-q18
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Add a plugin to a module"
+    source_readings:
+      - sections/section-030/module-03/course-02-datasource-plugins.md
+    prompt: "How do you add a datasource plugin to a module that already exists?"
+    options:
+      - id: a
+        text: "Run `npm init` in the module."
+        explanation: "Not correct. This does not match the course."
+      - id: b
+        text: "Run `helm upgrade` with a new plugin name."
+        explanation: "Not correct. This does not match the course."
+      - id: c
+        text: "Run `percli plugin generate` with the same module flags and `--plugin.type=Datasource`."
+        explanation: "Correct. This matches the course."
+      - id: d
+        text: "Edit the Perses server image."
+        explanation: "Not correct. This does not match the course."
+    correct_option: c
+    explanation: "Correct. This matches the course."
+
+  - id: ats110-final-q19
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Know what percli does not generate"
+    source_readings:
+      - sections/section-030/module-03/course-03-explore-plugins-and-other-plugin-kinds.md
+    prompt: "For which plugin type does `percli plugin generate` have no template?"
+    options:
+      - id: a
+        text: "Panel plugins."
+        explanation: "Not correct. This does not match the course."
+      - id: b
+        text: "Datasource plugins."
+        explanation: "Not correct. This does not match the course."
+      - id: c
+        text: "Explore plugins."
+        explanation: "Not correct. This does not match the course."
+      - id: d
+        text: "Variable plugins."
+        explanation: "Correct. This matches the course."
+    correct_option: d
+    explanation: "Correct. This matches the course."

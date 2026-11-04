@@ -1,0 +1,246 @@
+# Knowledge check for module 030-02. Listed in astrona.yaml as a `type: quiz` entry after the module lab.
+schema_version: 1
+kind: question_bank
+id: ats110-030-02
+course_id: ATS110
+exam_code: PERSES
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: module
+  id: module-030-02
+  title: "Constrain And Test Plugin Schemas"
+placement:
+  position: after
+  reading: sections/section-030/module-02/labs/lab-01/question.md
+questions:
+
+  - id: ats110-030-02-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Say where the schema is used"
+    source_readings:
+      - sections/section-030/module-02/course-01-what-a-plugin-schema-checks.md
+    prompt: "Where does Perses check a panel's settings against the plugin's CUE schema?"
+    options:
+      - id: a
+        text: "In the browser, when the panel draws."
+        explanation: "Not correct. The browser does not run the schema."
+      - id: b
+        text: "On the server, when a dashboard is saved."
+        explanation: "Correct. The check protects every client of the API."
+      - id: c
+        text: "Only when the plugin is built."
+        explanation: "Not correct. The build does not check dashboards."
+      - id: d
+        text: "Only when Prometheus answers."
+        explanation: "Not correct. Query results are not checked."
+    correct_option: b
+    explanation: "Correct. The check protects every client of the API."
+
+  - id: ats110-030-02-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the CUE package"
+    source_readings:
+      - sections/section-030/module-02/course-01-what-a-plugin-schema-checks.md
+    prompt: "Which CUE package name must a plugin schema file use?"
+    options:
+      - id: a
+        text: "`schema`"
+        explanation: "Not correct. Another name hides the schema."
+      - id: b
+        text: "`plugin`"
+        explanation: "Not correct. Another name hides the schema."
+      - id: c
+        text: "`model`"
+        explanation: "Correct. `percli` and Perses look for this package."
+      - id: d
+        text: "`main`"
+        explanation: "Not correct. Another name hides the schema."
+    correct_option: c
+    explanation: "Correct. `percli` and Perses look for this package."
+
+  - id: ats110-030-02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Say what close does"
+    source_readings:
+      - sections/section-030/module-02/course-01-what-a-plugin-schema-checks.md
+    prompt: "What does wrapping the spec in `close({ ... })` do?"
+    options:
+      - id: a
+        text: "It makes every field optional."
+        explanation: "Not correct. Optional fields use `?`."
+      - id: b
+        text: "It makes every field required."
+        explanation: "Not correct. Fields are required unless they end with `?`."
+      - id: c
+        text: "It sets default values."
+        explanation: "Not correct. Defaults use `*`."
+      - id: d
+        text: "It refuses any field that is not listed."
+        explanation: "Correct. Without it, extra fields are accepted."
+    correct_option: d
+    explanation: "Correct. Without it, extra fields are accepted."
+
+  - id: ats110-030-02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Limit a string length"
+    source_readings:
+      - sections/section-030/module-02/course-02-constraining-values-in-cue.md
+    prompt: "Which rule limits `label` to between 1 and 40 characters?"
+    options:
+      - id: a
+        text: "`strings.MinRunes(1) & strings.MaxRunes(40)`"
+        explanation: "Correct. Import the `strings` package first."
+      - id: b
+        text: "`string | 40`"
+        explanation: "Not correct. `|` means or."
+      - id: c
+        text: "`string & <=40`"
+        explanation: "Not correct. A comparison like that is for numbers."
+      - id: d
+        text: "`strings.Length(1, 40)`"
+        explanation: "Not correct. That function does not exist."
+    correct_option: a
+    explanation: "Correct. Import the `strings` package first."
+
+  - id: ats110-030-02-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Allow zero"
+    source_readings:
+      - sections/section-030/module-02/course-02-constraining-values-in-cue.md
+    prompt: "Which rule accepts 0 and positive numbers but refuses negative numbers?"
+    options:
+      - id: a
+        text: "`number & >0`"
+        explanation: "Not correct. It refuses 0."
+      - id: b
+        text: "`number & >=0`"
+        explanation: "Correct. `>0` would refuse 0."
+      - id: c
+        text: "`int & <0`"
+        explanation: "Not correct. It accepts only negative whole numbers."
+      - id: d
+        text: "`number | 0`"
+        explanation: "Not correct. It accepts any number."
+    correct_option: b
+    explanation: "Correct. `>0` would refuse 0."
+
+  - id: ats110-030-02-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Understand defaults"
+    source_readings:
+      - sections/section-030/module-02/course-02-constraining-values-in-cue.md
+    prompt: "A schema has `format?: *\"number\" | \"percent\"`. What does the default do?"
+    options:
+      - id: a
+        text: "It writes `\"number\"` into every saved dashboard."
+        explanation: "Not correct. Perses does not write it back."
+      - id: b
+        text: "It makes `format` required."
+        explanation: "Not correct. The field is optional."
+      - id: c
+        text: "It marks `\"number\"` as the value CUE picks; Perses does not write it into the stored dashboard."
+        explanation: "Correct. The component must apply the same default."
+      - id: d
+        text: "It lets any string through."
+        explanation: "Not correct. Only the two values are allowed."
+    correct_option: c
+    explanation: "Correct. The component must apply the same default."
+
+  - id: ats110-030-02-q07
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Place the tests"
+    source_readings:
+      - sections/section-030/module-02/course-03-testing-schemas-with-percli.md
+    prompt: "Where do the files that the schema must refuse go?"
+    options:
+      - id: a
+        text: "In `tests/valid`."
+        explanation: "Not correct. That folder is for accepted files."
+      - id: b
+        text: "In the root of the module."
+        explanation: "Not correct. Nothing is run from there."
+      - id: c
+        text: "In `cue.mod`."
+        explanation: "Not correct. That folder holds module data."
+      - id: d
+        text: "In `tests/invalid`, in the folder next to the schema file."
+        explanation: "Correct. Files outside the two folders are not run."
+    correct_option: d
+    explanation: "Correct. Files outside the two folders are not run."
+
+  - id: ats110-030-02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Say what a test file holds"
+    source_readings:
+      - sections/section-030/module-02/course-03-testing-schemas-with-percli.md
+    prompt: "What must each schema test file contain?"
+    options:
+      - id: a
+        text: "The complete definition, with `kind` and `spec`."
+        explanation: "Correct. The schema describes both."
+      - id: b
+        text: "Only the `spec`."
+        explanation: "Not correct. Without `kind` it does not match the schema."
+      - id: c
+        text: "Only the `kind`."
+        explanation: "Not correct. The settings are in `spec`."
+      - id: d
+        text: "A path to the schema."
+        explanation: "Not correct. The file holds data."
+    correct_option: a
+    explanation: "Correct. The schema describes both."
+
+  - id: ats110-030-02-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read a failed invalid test"
+    source_readings:
+      - sections/section-030/module-02/course-04-when-a-schema-test-fails.md
+    prompt: "A file in `tests/invalid` fails the test run. What does that mean?"
+    options:
+      - id: a
+        text: "The schema refused the file."
+        explanation: "Not correct. That would make the test pass."
+      - id: b
+        text: "The schema accepted the file, so a rule is missing or too loose."
+        explanation: "Correct. An invalid test passes only when the schema refuses the file."
+      - id: c
+        text: "The file is not valid JSON and so is skipped."
+        explanation: "Not correct. A syntax error is a different fault."
+      - id: d
+        text: "The module cannot be built."
+        explanation: "Not correct. The build is not involved."
+    correct_option: b
+    explanation: "Correct. An invalid test passes only when the schema refuses the file."
+
+  - id: ats110-030-02-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Use cue vet"
+    source_readings:
+      - sections/section-030/module-02/course-04-when-a-schema-test-fails.md
+    prompt: "`cue vet` prints nothing for a file in `tests/invalid`. What does it tell you?"
+    options:
+      - id: a
+        text: "The test passes."
+        explanation: "Not correct. An invalid test needs an error."
+      - id: b
+        text: "The file is perfect."
+        explanation: "Not correct. It is accepted by the schema."
+      - id: c
+        text: "Nothing refused the file, which is the fault."
+        explanation: "Correct. On an invalid file, silence is the fault."
+      - id: d
+        text: "CUE is not installed."
+        explanation: "Not correct. A missing command prints an error."
+    correct_option: c
+    explanation: "Correct. On an invalid file, silence is the fault."

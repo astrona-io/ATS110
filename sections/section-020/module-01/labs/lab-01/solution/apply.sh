@@ -133,7 +133,7 @@ const queryClient = new QueryClient({
 function EmbeddedPanel(props: { name: string; query: string; plugin: { kind: string; spec: object } }): ReactElement {
   return (
     <div style={{ height: 300, padding: 16 }}>
-      <DataQueriesProvider definitions={[{ kind: 'PrometheusTimeSeriesQuery', spec: { query: props.query } }]}>
+      <DataQueriesProvider definitions={[{ kind: 'TimeSeriesQuery', spec: { plugin: { kind: 'PrometheusTimeSeriesQuery', spec: { query: props.query } } } }]}>
         <Panel definition={{ kind: 'Panel', spec: { display: { name: props.name }, plugin: props.plugin } }} />
       </DataQueriesProvider>
     </div>

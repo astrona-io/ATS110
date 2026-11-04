@@ -1,0 +1,246 @@
+# Knowledge check for module 010-02. Listed in astrona.yaml as a `type: quiz` entry after the module lab.
+schema_version: 1
+kind: question_bank
+id: ats110-010-02
+course_id: ATS110
+exam_code: PERSES
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: module
+  id: module-010-02
+  title: "The Lockfile And Reproducible Installs"
+placement:
+  position: after
+  reading: sections/section-010/module-02/labs/lab-01/question.md
+questions:
+
+  - id: ats110-010-02-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Say what the lockfile records"
+    source_readings:
+      - sections/section-010/module-02/course-01-what-a-lockfile-records.md
+    prompt: "What does `package-lock.json` record that `package.json` does not?"
+    options:
+      - id: a
+        text: "Only the packages you listed, in alphabetical order."
+        explanation: "Not correct. The lockfile also lists every package below the listed ones."
+      - id: b
+        text: "The exact version of every installed package, including packages below the ones you listed, with the tarball address and a hash."
+        explanation: "Correct. `package.json` lists accepted ranges, and the lockfile records what npm actually installed."
+      - id: c
+        text: "The scripts that npm runs during a build."
+        explanation: "Not correct. Scripts are in `package.json`."
+      - id: d
+        text: "The Node.js version of the machine that installed the packages."
+        explanation: "Not correct. The lockfile does not record the Node.js version."
+    correct_option: b
+    explanation: "Correct. `package.json` lists accepted ranges, and the lockfile records what npm actually installed."
+
+  - id: ats110-010-02-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Read a caret range on a 0.x version"
+    source_readings:
+      - sections/section-010/module-02/course-01-what-a-lockfile-records.md
+    prompt: "The range `^0.54.0` is used for a `@perses-dev` package. Which versions does it accept?"
+    options:
+      - id: a
+        text: "Any version from 0.54.0 up to but not including 1.0.0."
+        explanation: "Not correct. That would be true for a version of 1.0.0 or later, not for 0.x."
+      - id: b
+        text: "Only 0.54.0 and nothing else."
+        explanation: "Not correct. A caret range accepts newer patch versions."
+      - id: c
+        text: "Newer patch versions of 0.54, such as 0.54.1, but not 0.55.0."
+        explanation: "Correct. On a 0.x version a caret range stays inside one minor version."
+      - id: d
+        text: "Any version of the package with the major number 0."
+        explanation: "Not correct. The caret on 0.x pins the minor version."
+    correct_option: c
+    explanation: "Correct. On a 0.x version a caret range stays inside one minor version."
+
+  - id: ats110-010-02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose the right install command"
+    source_readings:
+      - sections/section-010/module-02/course-02-installing-the-same-tree-every-time.md
+    prompt: "An automated build must install exactly what the lockfile lists. Which command do you use?"
+    options:
+      - id: a
+        text: "`npm install`"
+        explanation: "Not correct. `npm install` can change the lockfile."
+      - id: b
+        text: "`npm update`"
+        explanation: "Not correct. `npm update` moves versions inside their ranges."
+      - id: c
+        text: "`npm install --legacy-peer-deps`"
+        explanation: "Not correct. That flag hides peer conflicts and does not give a reproducible tree."
+      - id: d
+        text: "`npm ci`"
+        explanation: "Correct. `npm ci` installs from the lockfile, never writes it, and stops if it disagrees with `package.json`."
+    correct_option: d
+    explanation: "Correct. `npm ci` installs from the lockfile, never writes it, and stops if it disagrees with `package.json`."
+
+  - id: ats110-010-02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Say what npm ci does to node_modules"
+    source_readings:
+      - sections/section-010/module-02/course-02-installing-the-same-tree-every-time.md
+    prompt: "What does `npm ci` do with an existing `node_modules` folder?"
+    options:
+      - id: a
+        text: "It deletes the folder and installs again from the lockfile."
+        explanation: "Correct. That is why the result does not depend on what was installed before."
+      - id: b
+        text: "It keeps the folder and adds the missing packages."
+        explanation: "Not correct. Keeping old packages would make the result depend on history."
+      - id: c
+        text: "It moves the folder to a backup name."
+        explanation: "Not correct. It does not make a backup."
+      - id: d
+        text: "It leaves the folder alone and only checks the hashes."
+        explanation: "Not correct. It installs again."
+    correct_option: a
+    explanation: "Correct. That is why the result does not depend on what was installed before."
+
+  - id: ats110-010-02-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Keep the lockfile when the builder pod is lost"
+    source_readings:
+      - sections/section-010/module-02/course-02-installing-the-same-tree-every-time.md
+    prompt: "In the cluster, the builder pod keeps its workspace in an `emptyDir`. What must you do with the lockfile produced there?"
+    options:
+      - id: a
+        text: "Nothing; the next pod creates the same file."
+        explanation: "Not correct. A new pod without a lockfile resolves the ranges again."
+      - id: b
+        text: "Copy it out of the pod and keep it with the source, because a pod restart loses it."
+        explanation: "Correct. The lockfile is part of the source and must outlive the pod."
+      - id: c
+        text: "Delete it so that every build resolves versions again."
+        explanation: "Not correct. That removes reproducibility."
+      - id: d
+        text: "Add it to `.npmrc`."
+        explanation: "Not correct. `.npmrc` holds settings, not the lockfile."
+    correct_option: b
+    explanation: "Correct. The lockfile is part of the source and must outlive the pod."
+
+  - id: ats110-010-02-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Set exact versions in a project"
+    source_readings:
+      - sections/section-010/module-02/course-02-installing-the-same-tree-every-time.md
+    prompt: "Which `.npmrc` setting makes `npm install package` save an exact version without a caret?"
+    options:
+      - id: a
+        text: "`legacy-peer-deps=true`"
+        explanation: "Not correct. That setting hides peer conflicts and does not belong in the project."
+      - id: b
+        text: "`package-lock=false`"
+        explanation: "Not correct. That stops npm from writing a lockfile."
+      - id: c
+        text: "`save-exact=true`"
+        explanation: "Correct. The project `.npmrc` wins over the user and global files."
+      - id: d
+        text: "`audit=false`"
+        explanation: "Not correct. That turns off the security audit."
+    correct_option: c
+    explanation: "Correct. The project `.npmrc` wins over the user and global files."
+
+  - id: ats110-010-02-q07
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Explain why two copies of a package break an app"
+    source_readings:
+      - sections/section-010/module-02/course-03-finding-duplicate-and-wrong-copies.md
+    prompt: "Why can two copies of `react` or `@perses-dev/plugin-system` break the page?"
+    options:
+      - id: a
+        text: "Two copies double the size of the page and nothing else."
+        explanation: "Not correct. The size is not the main problem."
+      - id: b
+        text: "npm refuses to start the build."
+        explanation: "Not correct. npm installs both without error."
+      - id: c
+        text: "The browser caches only the first copy."
+        explanation: "Not correct. The browser loads both copies."
+      - id: d
+        text: "Each copy keeps its own state and context, so a component from one copy cannot see the providers of the other."
+        explanation: "Correct. Providers and hooks depend on one shared copy."
+    correct_option: d
+    explanation: "Correct. Providers and hooks depend on one shared copy."
+
+  - id: ats110-010-02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find every path to a package"
+    source_readings:
+      - sections/section-010/module-02/course-03-finding-duplicate-and-wrong-copies.md
+    prompt: "Which command shows every path to the package `react` in the tree, with markers such as `deduped` and `invalid`?"
+    options:
+      - id: a
+        text: "`npm ls react --all`"
+        explanation: "Correct. A second path through another `node_modules` shows a second copy."
+      - id: b
+        text: "`npm audit react`"
+        explanation: "Not correct. `npm audit` checks known vulnerabilities."
+      - id: c
+        text: "`npm view react`"
+        explanation: "Not correct. `npm view` prints registry data."
+      - id: d
+        text: "`npm prune react`"
+        explanation: "Not correct. `npm prune` removes extraneous packages."
+    correct_option: a
+    explanation: "Correct. A second path through another `node_modules` shows a second copy."
+
+  - id: ats110-010-02-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find out why a copy is installed"
+    source_readings:
+      - sections/section-010/module-02/course-03-finding-duplicate-and-wrong-copies.md
+    prompt: "Which command explains why a particular copy of a package is installed?"
+    options:
+      - id: a
+        text: "`npm fund name`"
+        explanation: "Not correct. `npm fund` shows funding links."
+      - id: b
+        text: "`npm explain name`"
+        explanation: "Correct. It prints the chain of dependencies that led to the copy."
+      - id: c
+        text: "`npm outdated name`"
+        explanation: "Not correct. `npm outdated` compares versions with the registry."
+      - id: d
+        text: "`npm cache name`"
+        explanation: "Not correct. That is not how the cache command works."
+    correct_option: b
+    explanation: "Correct. It prints the chain of dependencies that led to the copy."
+
+  - id: ats110-010-02-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Judge the use of overrides"
+    source_readings:
+      - sections/section-010/module-02/course-04-overrides-and-upgrading-with-the-server.md
+    prompt: "A team wants to use `overrides` to force one `@perses-dev` package to a different version. What does the course advise?"
+    options:
+      - id: a
+        text: "Do it, because overrides are always safe."
+        explanation: "Not correct. Overrides can produce a tree that was never tested together."
+      - id: b
+        text: "Do it only in `.npmrc`."
+        explanation: "Not correct. Overrides are a `package.json` field."
+      - id: c
+        text: "Do not do it. It carries the same risk as forcing peers, and the packages are built to work in one release."
+        explanation: "Correct. Use overrides rarely and never on a `@perses-dev` package."
+      - id: d
+        text: "Do it, and delete the lockfile afterwards."
+        explanation: "Not correct. Deleting the lockfile loses reproducibility."
+    correct_option: c
+    explanation: "Correct. Use overrides rarely and never on a `@perses-dev` package."

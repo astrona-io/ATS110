@@ -1,0 +1,59 @@
+# Render A Saved Dashboard With A Project Datasource
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-110-lab-020-03"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "install-perses"
+      description: "Installs Helm and percli, adds the CoreDNS names, installs Perses and starts the builder"
+      type: "file"
+      source: "bootstrap/01-install-perses.sh"
+    - name: "ats-110-lab-020-03-setup"
+      description: "Creates the starting state that the task works from"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+testing:
+  init:
+    - name: "wait-for-perses"
+      description: "Waits for Perses and the builder before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-perses.sh"
+    - name: "reference-solution"
+      description: "The work a correct learner does; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-project-datasource-from-app"
+      description: "Confirms the saved dashboard and its project datasource are reachable through the app's origin"
+      type: "file"
+      source: "validation/validate-project-datasource-from-app.sh"
+    - name: "validate-source"
+      description: "Confirms App.tsx loads and renders the saved dashboard and the DatasourceApi reads project datasources"
+      type: "file"
+      source: "validation/validate-source.sh"
+    - name: "validate-bundle"
+      description: "Confirms the built app requests the saved dashboard and the project datasource paths"
+      type: "file"
+      source: "validation/validate-bundle.sh"
+    - name: "validate-app-served"
+      description: "Confirms the rebuilt app is served"
+      type: "file"
+      source: "validation/validate-app-served.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - docker.io/persesdev/perses:v0.54.0
+      - nginx:1.31.8-alpine
+      - nicolaka/netshoot:v0.13
+      - node:22.23.4-alpine3.24
+      - prom/prometheus:v3.15.1

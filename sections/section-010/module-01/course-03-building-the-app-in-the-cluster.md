@@ -61,7 +61,7 @@ builder "npm run build && npm run deploy"
 
 Reload the browser page, and the panel title reads "Prometheus targets". The packages did not change, so `npm install` was not needed; you only run it again when `package.json` changes.
 
-You can now build the app from its source, serve it, and rebuild it after a change. What is still open is what happens when `package.json` holds versions that do not fit together, which is the situation the lab starts from.
+You can now build the app from its source, serve it, and rebuild it after a change. What is still open is how to check an app before and after a build, so that a bad version or a missing file shows up as a clear message instead of a blank page.
 
 ## Common pitfalls
 
@@ -70,32 +70,3 @@ You can now build the app from its source, serve it, and rebuild it after a chan
 > - **Expecting edits to survive a builder restart.** `/workspace/app` is an `emptyDir`. A new pod starts from the ConfigMap again.
 > - **Changing `package.json` without `npm install`.** The build then uses the packages installed before the change.
 > - **Reading a blank page as a data problem.** A blank page is usually a script that did not load. Check that its `/assets/` path returns JavaScript, not HTML.
-
-## Your mission: Align The Perses Package Versions
-
-You can now install, build and serve the app, and read an npm peer dependency error. The graded lab gives you an app whose `package.json` mixes three releases, so `npm install` fails, and asks you to pin versions that fit Perses v0.54.0 and serve a working build.
-
-The lab runs in its own cluster, so first pause your playground. Nothing in it is lost:
-
-```sh
-astrona stop ats-110-playground-010-01
-```
-
-Then start the lab:
-
-```sh
-astrona run --git ssh://git@github.com/astrona-io/ATS110.git -c sections/section-010/module-01/labs/lab-01
-```
-
-The task is on the next page. Solve it on your own first. When you think you are done, send it for grading:
-
-```sh
-astrona submit -c sections/section-010/module-01/labs/lab-01
-```
-
-When the lab is done, remove it and start your playground again:
-
-```sh
-astrona destroy ats-110-lab-010-01
-astrona start ats-110-playground-010-01
-```

@@ -10,7 +10,7 @@ One panel proves the setup works; a useful page shows several. Each panel needs 
 function EmbeddedPanel(props: { name: string; query: string; plugin: { kind: string; spec: object } }): ReactElement {
   return (
     <div style={{ height: 300, padding: 16 }}>
-      <DataQueriesProvider definitions={[{ kind: 'PrometheusTimeSeriesQuery', spec: { query: props.query } }]}>
+      <DataQueriesProvider definitions={[{ kind: 'TimeSeriesQuery', spec: { plugin: { kind: 'PrometheusTimeSeriesQuery', spec: { query: props.query } } } }]}>
         <Panel definition={{ kind: 'Panel', spec: { display: { name: props.name }, plugin: props.plugin } }} />
       </DataQueriesProvider>
     </div>
@@ -75,7 +75,7 @@ const queryClient = new QueryClient({
 function EmbeddedPanel(props: { name: string; query: string; plugin: { kind: string; spec: object } }): ReactElement {
   return (
     <div style={{ height: 300, padding: 16 }}>
-      <DataQueriesProvider definitions={[{ kind: 'PrometheusTimeSeriesQuery', spec: { query: props.query } }]}>
+      <DataQueriesProvider definitions={[{ kind: 'TimeSeriesQuery', spec: { plugin: { kind: 'PrometheusTimeSeriesQuery', spec: { query: props.query } } } }]}>
         <Panel definition={{ kind: 'Panel', spec: { display: { name: props.name }, plugin: props.plugin } }} />
       </DataQueriesProvider>
     </div>
@@ -156,32 +156,3 @@ You can now place several panels with their own queries under one time range and
 > - **Using `StatChart` without adding it to the loader.** The import alone does nothing; `PluginRegistry` must list it.
 > - **Leaving out `calculation` in a `StatChart` spec.** The panel cannot reduce a series to one number without it.
 > - **A panel in a parent with no height.** The panel fills its parent; give the parent a height.
-
-## Your mission: Embed Two Panels That Query Through Perses
-
-You can now write a `DatasourceApi` for the Perses server and place several panels with their own queries. The graded lab starts from the guide's app with its hard-coded datasource, and asks for a page with two given panels that get their data from the Perses datasource through the proxy.
-
-The lab runs in its own cluster, so first pause your playground. Nothing in it is lost:
-
-```sh
-astrona stop ats-110-playground-020-01
-```
-
-Then start the lab:
-
-```sh
-astrona run --git ssh://git@github.com/astrona-io/ATS110.git -c sections/section-020/module-01/labs/lab-01
-```
-
-The task is on the next page. Solve it on your own first. When you think you are done, send it for grading:
-
-```sh
-astrona submit -c sections/section-020/module-01/labs/lab-01
-```
-
-When the lab is done, remove it and start your playground again:
-
-```sh
-astrona destroy ats-110-lab-020-01
-astrona start ats-110-playground-020-01
-```

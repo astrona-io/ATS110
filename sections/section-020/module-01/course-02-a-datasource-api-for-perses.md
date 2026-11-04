@@ -151,7 +151,7 @@ export default function App(): ReactElement {
                   <DatasourceStoreProvider dashboardResource={embeddedDashboard} datasourceApi={datasourceApi}>
                     <div style={{ height: 320, padding: 16 }}>
                       <DataQueriesProvider
-                        definitions={[{ kind: 'PrometheusTimeSeriesQuery', spec: { query: 'up{job="prometheus"}' } }]}
+                        definitions={[{ kind: 'TimeSeriesQuery', spec: { plugin: { kind: 'PrometheusTimeSeriesQuery', spec: { query: 'up{job="prometheus"}' } } } }]}
                       >
                         <Panel
                           panelOptions={{ hideHeader: false }}

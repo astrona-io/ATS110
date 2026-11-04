@@ -1,0 +1,246 @@
+# Knowledge check for module 030-03. Listed in astrona.yaml as a `type: quiz` entry after the module lab.
+schema_version: 1
+kind: question_bank
+id: ats110-030-03
+course_id: ATS110
+exam_code: PERSES
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: module
+  id: module-030-03
+  title: "Query And Datasource Plugins"
+placement:
+  position: after
+  reading: sections/section-030/module-03/labs/lab-01/question.md
+questions:
+
+  - id: ats110-030-03-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Say what a query plugin does"
+    source_readings:
+      - sections/section-030/module-03/course-01-query-plugins.md
+    prompt: "What does the function `getTimeSeriesData` of a query plugin return?"
+    options:
+      - id: a
+        text: "A React component."
+        explanation: "Not correct. The editor is a component, not the data."
+      - id: b
+        text: "Time series data: the series, the time range, a step and some metadata."
+        explanation: "Correct. Panels draw this data."
+      - id: c
+        text: "A CUE schema."
+        explanation: "Not correct. The schema is a separate file."
+      - id: d
+        text: "A Kubernetes manifest."
+        explanation: "Not correct. It returns data."
+    correct_option: b
+    explanation: "Correct. Panels draw this data."
+
+  - id: ats110-030-03-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Say how the query finds a client"
+    source_readings:
+      - sections/section-030/module-03/course-01-query-plugins.md
+    prompt: "How does a query plugin get a client for the system it queries?"
+    options:
+      - id: a
+        text: "It calls `fetch` with a fixed address."
+        explanation: "Not correct. The datasource plugin owns the connection."
+      - id: b
+        text: "It imports the client from `react`."
+        explanation: "Not correct. React has no client."
+      - id: c
+        text: "It asks the datasource store with `getDatasourceClient`, giving a datasource kind or selector."
+        explanation: "Correct. The datasource plugin decides how the client reaches the system."
+      - id: d
+        text: "It reads the client from `package.json`."
+        explanation: "Not correct. `package.json` holds no code."
+    correct_option: c
+    explanation: "Correct. The datasource plugin decides how the client reaches the system."
+
+  - id: ats110-030-03-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Say what dependsOn is for"
+    source_readings:
+      - sections/section-030/module-03/course-01-query-plugins.md
+    prompt: "What does `dependsOn` return in a query plugin?"
+    options:
+      - id: a
+        text: "The npm packages the plugin needs."
+        explanation: "Not correct. Packages are in `package.json`."
+      - id: b
+        text: "The datasources the plugin creates."
+        explanation: "Not correct. A query does not create datasources."
+      - id: c
+        text: "The panels that use the query."
+        explanation: "Not correct. It lists variables."
+      - id: d
+        text: "The variables the query uses, so Perses re-runs the query when they change."
+        explanation: "Correct. It is built from `parseVariables(spec.query)`."
+    correct_option: d
+    explanation: "Correct. It is built from `parseVariables(spec.query)`."
+
+  - id: ats110-030-03-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Spot the placeholder"
+    source_readings:
+      - sections/section-030/module-03/course-01-query-plugins.md
+    prompt: "The generated query schema names the datasource kind `YourDatasourceKind`. Why?"
+    options:
+      - id: a
+        text: "The generator cannot know your datasource, so it leaves a value you must replace."
+        explanation: "Correct. Left in place, the schema refuses every real kind."
+      - id: b
+        text: "It is the name of a real Perses datasource."
+        explanation: "Not correct. No such datasource exists."
+      - id: c
+        text: "It is required by CUE."
+        explanation: "Not correct. CUE does not need it."
+      - id: d
+        text: "It is the name of the module."
+        explanation: "Not correct. The module name is separate."
+    correct_option: a
+    explanation: "Correct. Left in place, the schema refuses every real kind."
+
+  - id: ats110-030-03-q05
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Say what createClient does"
+    source_readings:
+      - sections/section-030/module-03/course-02-datasource-plugins.md
+    prompt: "What does `createClient` in a datasource plugin do?"
+    options:
+      - id: a
+        text: "It installs the plugin into Perses."
+        explanation: "Not correct. Installation is done with an archive."
+      - id: b
+        text: "It builds the client object with the methods the queries call, from the datasource spec and the proxy address."
+        explanation: "Correct. The generated one uses `directUrl` or the `proxyUrl`."
+      - id: c
+        text: "It validates the dashboard."
+        explanation: "Not correct. The schema validates."
+      - id: d
+        text: "It draws the panel."
+        explanation: "Not correct. A panel plugin draws."
+    correct_option: b
+    explanation: "Correct. The generated one uses `directUrl` or the `proxyUrl`."
+
+  - id: ats110-030-03-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Add a plugin to an existing module"
+    source_readings:
+      - sections/section-030/module-03/course-02-datasource-plugins.md
+    prompt: "How do you add a datasource plugin to an existing module with `percli`?"
+    options:
+      - id: a
+        text: "Run `npm init` in the module."
+        explanation: "Not correct. That creates a package file."
+      - id: b
+        text: "Edit `perses.plugins` by hand only."
+        explanation: "Not correct. The files would be missing."
+      - id: c
+        text: "Run `percli plugin generate` with the same module flags, `--plugin.type=Datasource` and the module folder."
+        explanation: "Correct. `percli` writes the files and the `package.json` entry together."
+      - id: d
+        text: "Run `helm upgrade`."
+        explanation: "Not correct. Helm installs, it does not generate."
+    correct_option: c
+    explanation: "Correct. `percli` writes the files and the `package.json` entry together."
+
+  - id: ats110-030-03-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "List the places a kind must match"
+    source_readings:
+      - sections/section-030/module-03/course-02-datasource-plugins.md
+    prompt: "Which values must be equal for a query to reach its datasource plugin?"
+    options:
+      - id: a
+        text: "Only the module name."
+        explanation: "Not correct. The module name does not connect them."
+      - id: b
+        text: "Only the display name."
+        explanation: "Not correct. Display names are for people."
+      - id: c
+        text: "The port of the Perses service."
+        explanation: "Not correct. Ports are unrelated."
+      - id: d
+        text: "The datasource plugin name, its schema kind, the query schema kind and the kind in the query code."
+        explanation: "Correct. The link is made by the kind name."
+    correct_option: d
+    explanation: "Correct. The link is made by the kind name."
+
+  - id: ats110-030-03-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Know the generator limits"
+    source_readings:
+      - sections/section-030/module-03/course-03-explore-plugins-and-other-plugin-kinds.md
+    prompt: "For which plugin type does `percli plugin generate` have no template?"
+    options:
+      - id: a
+        text: "Variable plugins."
+        explanation: "Correct. Write a variable plugin by hand and declare it in `package.json`."
+      - id: b
+        text: "Panel plugins."
+        explanation: "Not correct. There is a Panel template."
+      - id: c
+        text: "Datasource plugins."
+        explanation: "Not correct. There is a Datasource template."
+      - id: d
+        text: "Explore plugins."
+        explanation: "Not correct. There is an Explore template."
+    correct_option: a
+    explanation: "Correct. Write a variable plugin by hand and declare it in `package.json`."
+
+  - id: ats110-030-03-q09
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Fix a generated explore plugin"
+    source_readings:
+      - sections/section-030/module-03/course-03-explore-plugins-and-other-plugin-kinds.md
+    prompt: "A generated explore plugin shows `TraceQuery` but your data is time series. What do you change?"
+    options:
+      - id: a
+        text: "The module version only."
+        explanation: "Not correct. The version does not affect the type."
+      - id: b
+        text: "The `QUERY_TYPE` constant, and the check that decides whether data was found."
+        explanation: "Correct. The check reads a field that exists only in trace results."
+      - id: c
+        text: "The Helm chart version."
+        explanation: "Not correct. Helm is unrelated."
+      - id: d
+        text: "The name of the module."
+        explanation: "Not correct. The name does not affect the type."
+    correct_option: b
+    explanation: "Correct. The check reads a field that exists only in trace results."
+
+  - id: ats110-030-03-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Find a connection fault"
+    source_readings:
+      - sections/section-030/module-03/course-04-when-the-plugins-do-not-connect.md
+    prompt: "The query schema was fixed to `DemoSource`, but `constants.ts` still has the placeholder. What happens?"
+    options:
+      - id: a
+        text: "Saving fails with a CUE error."
+        explanation: "Not correct. The schema is correct."
+      - id: b
+        text: "The build fails."
+        explanation: "Not correct. The types do not catch a string value."
+      - id: c
+        text: "Saving works, but the query fails at run time because no datasource of the placeholder kind exists."
+        explanation: "Correct. The schema and the code must change together."
+      - id: d
+        text: "Perses removes the plugin."
+        explanation: "Not correct. Perses does not remove plugins."
+    correct_option: c
+    explanation: "Correct. The schema and the code must change together."

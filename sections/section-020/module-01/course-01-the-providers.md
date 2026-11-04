@@ -52,7 +52,7 @@ The diagram shows the nesting from the outermost provider down to the panel.
 
 ## How a panel gets drawn
 
-Follow one panel from the definition to the chart. `DataQueriesProvider` receives a list of query definitions; here one, of kind `PrometheusTimeSeriesQuery`, with the PromQL text `up{job="prometheus"}`. It asks `PluginRegistry` for the plugin of that kind, which is in `@perses-dev/prometheus-plugin`. The query plugin asks `DatasourceStoreProvider` for a Prometheus datasource, and runs the query through it with the current time range. The results go back down to `<Panel>`, which asks `PluginRegistry` for the panel plugin named in its definition, `TimeSeriesChart`, and lets it draw.
+Follow one panel from the definition to the chart. `DataQueriesProvider` receives a list of query definitions; here one, of kind `TimeSeriesQuery`, whose `spec.plugin` has the kind `PrometheusTimeSeriesQuery` and the PromQL text `up{job="prometheus"}`. It asks `PluginRegistry` for the query plugin named in `spec.plugin.kind`, which is in `@perses-dev/prometheus-plugin`. The query plugin asks `DatasourceStoreProvider` for a Prometheus datasource, and runs the query through it with the current time range. The results go back down to `<Panel>`, which asks `PluginRegistry` for the panel plugin named in its definition, `TimeSeriesChart`, and lets it draw.
 
 `PluginRegistry` only knows the plugins its loader lists. The app's loader lists two, each with the module description from `getPluginModule()` and a function that returns the plugin code:
 

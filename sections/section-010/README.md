@@ -12,18 +12,29 @@ This section covers exactly that. It explains what each `@perses-dev` package co
 - Which plugin package versions ship with Perses v0.54.0.
 - What a peer dependency is, how npm reports a conflict, and why `--legacy-peer-deps` hides problems instead of fixing them.
 - Reading the installed tree with `npm ls`.
+- What `package-lock.json` records, why `npm ci` installs the same tree every time, and how to keep the lockfile when the builder pod is replaced.
+- Finding duplicate or wrong copies with `npm ls --all` and `npm explain`, and why `overrides` is a last resort.
 - Building a React application with Vite in a builder pod and serving it with nginx.
 
 ## The learning path
 
-The module starts at its landing page, which also launches the playground. The playground has Perses, Prometheus, a builder pod with a small React application, and an nginx server that shows it.
+Each module starts at its landing page, which also launches the playground. The playground has Perses, Prometheus, a builder pod with a small React application, and an nginx server that shows it.
 
 ### 1. Use The Perses npm Packages
 
 1. What Is In The Perses npm Packages
 2. Versions And Peer Dependencies
 3. Building The App In The Cluster, followed by the lab **Align The Perses Package Versions**
-4. Summary
+4. Checking The App Before And After A Build
+5. Summary
+
+### 2. Keep The Dependencies Reproducible
+
+1. What A Lockfile Records
+2. Installing The Same Tree Every Time
+3. Finding Duplicate And Wrong Copies
+4. Overrides And Upgrading With The Server, followed by the lab **Make The Install Reproducible**
+5. Summary
 
 ## Section capstone: Rescue A Starter App That Never Built
 
