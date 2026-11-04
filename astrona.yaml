@@ -13,7 +13,7 @@
 training:
   id: ATS110
   title: "Perses: Embedded UI Packages & Plugin Development"
-  maturity: draft
+  maturity: alpha
   description: >
     Training material covering the Embedded UI Packages & Plugin Development
     domain of the Perses training path: what the @perses-dev npm packages
