@@ -13,7 +13,7 @@
     "@emotion/styled": "11.14.1",
     "@hookform/resolvers": "3.10.0",
     "@mui/material": "6.5.0",
-    "@perses-dev/client": "0.54.0",
+    "@perses-dev/client": "0.55.1",
     "@perses-dev/components": "0.55.1",
     "@perses-dev/dashboards": "0.55.0",
     "@perses-dev/explore": "0.54.0",
