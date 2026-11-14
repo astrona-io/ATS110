@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://astrona.io/courses/perses">
+    <img src="https://astrona.io/courses/perses/domains/ATS110.svg" alt="ATS110: Embedded UI Packages & Plugin Development, part of the Perses course on Astrona" width="100%">
+  </a>
+</p>
+
 # ATS110 — Embedded UI Packages & Plugin Development (Perses)
 
 Course material for the **Embedded UI Packages & Plugin Development** domain
